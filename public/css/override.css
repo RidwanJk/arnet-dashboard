@@ -1,0 +1,9 @@
+/* Define custom CSS variables */
+:root {
+    --sidebar-background-color: red;
+}
+
+/* Apply custom variables to sidebar */
+#sidebar {
+    background-color: var(--sidebar-background-color);
+}
