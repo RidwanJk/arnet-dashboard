@@ -1,9 +1,23 @@
 /* Define custom CSS variables */
 :root {
-    --sidebar-background-color: red;
+    --sidebar-background-color: rgb(0, 0, 0);
+
+    
 }
 
 /* Apply custom variables to sidebar */
 #sidebar {
-    background-color: var(--sidebar-background-color);
+    background-color: var(--sidebar-background-color) !important;
+}
+
+.accordion-item, .accordion-button {
+    background-color: var(--sidebar-background-color) !important;
+}
+
+aside.bd-sidebar .sidebar-body .list-group-item.active {
+    background-color: #ee2e24 !important;
+}
+
+.bd-main {
+    background-color: #ee2e2450 !important;
 }

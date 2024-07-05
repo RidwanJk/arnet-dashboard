@@ -86,31 +86,7 @@
 </div>
 <!-- END OF TABLE -->
 
-<!-- CHARTS -->
-<div class="row align-items-center">
-    <!-- DOUGHNUT CHART -->
-    <div class="col-12 col-md-4 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <h6 class="card-title text-uppercase">Pie chart</h6>
-                <canvas id="pieChart"></canvas>
-            </div>
-        </div>
-    </div>
-    <!-- END OF DOUGHNUT CHART -->
 
-    <!-- LINE CHART -->
-    <div class="col-12 col-md-8 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <h6 class="card-title text-uppercase">Line chart</h6>
-                <canvas id="lineChart"></canvas>
-            </div>
-        </div>
-    </div>
-    <!-- END OF LINE CHART -->
-</div>
-<!-- END OF CHARTS -->
 
 
 @endsection

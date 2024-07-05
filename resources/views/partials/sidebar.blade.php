@@ -13,7 +13,7 @@
         <!-- LOGO -->
         <div class="p-3 text-center">
             <a href="{{ url('img/LOGO BULAT.png') }}">
-                <img src="{{ asset('img/LOGO_PANJANG.png') }}" alt="LOGO TRANSPARAN" class="img-fluid rectangular-logo">
+                <img  src="{{ asset('img/LOGO_PANJANG.png') }}" alt="LOGO TRANSPARAN" class="img-fluid rectangular-logo" width="150" height="50" >
                 <img src="{{ asset('img/LOGO BULAT.png') }}" alt="LOGO BULAT TRANSPARAN" width="50" class="dark-mode-logo">
             </a>
         </div>
@@ -40,10 +40,10 @@
                                     <span class="submenu-title">Dashboard</span>
                                 </a>
                                 <!-- Add More Menuss -->
-                                <!-- <a href="{{ url('/table') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark"
+                                <a href="{{ url('/table') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark"
                                    data-bs-placement="right" data-bs-title="Table">
                                     <i class="bi bi-table me-3"></i>
-                                    <span class="submenu-title">Table</span>
+                                    <span class="submenu-title">Denah</span>
                                 </a>
                                 <a href="{{ url('/form') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark"
                                    data-bs-placement="right" data-bs-title="Form">
@@ -54,7 +54,7 @@
                                    data-bs-placement="right" data-bs-title="Settings">
                                     <i class="bi bi-gear me-3"></i>
                                     <span class="submenu-title">Settings</span>
-                                </a> -->
+                                </a>
                             </div>
                         </div>
                     </div>
