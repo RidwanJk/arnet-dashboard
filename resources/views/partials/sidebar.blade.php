@@ -13,7 +13,7 @@
         <!-- LOGO -->
         <div class="p-3 text-center">
             <a href="{{ url('img/LOGO BULAT.png') }}">
-                <img  src="{{ asset('img/LOGO_PANJANG.png') }}" alt="LOGO TRANSPARAN" class="img-fluid rectangular-logo" width="150" height="50" >
+                <img src="{{ asset('img/LOGO_PANJANG.png') }}" alt="LOGO TRANSPARAN" class="img-fluid rectangular-logo" width="150" height="50">
                 <img src="{{ asset('img/LOGO BULAT.png') }}" alt="LOGO BULAT TRANSPARAN" width="50" class="dark-mode-logo">
             </a>
         </div>
@@ -25,8 +25,7 @@
                 <div class="accordion-item text-bg-dark border-0">
                     <!-- ADMIN MENU HEADER -->
                     <div class="accordion-header px-3">
-                        <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#submenu-admin">
+                        <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button" data-bs-toggle="collapse" data-bs-target="#submenu-admin">
                             ADMIN
                         </button>
                     </div>
@@ -34,26 +33,14 @@
                     <div id="submenu-admin" class="accordion-collapse collapse show">
                         <div class="accordion-body p-0 px-3">
                             <div class="list-group list-group-flush">
-                                <a href="{{ url('/') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark active"
-                                   data-bs-placement="right" data-bs-title="Dashboard">
-                                    <i class="bi bi-speedometer me-3"></i>
-                                    <span class="submenu-title">Dashboard</span>
+                                <a href="{{ url('/denah') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('denah') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Dashboard">
+                                    <i class="bi bi-diagram-3 me-3"></i>
+                                    <span class="submenu-title">Denah STO</span>
                                 </a>
-                                <!-- Add More Menuss -->
-                                <a href="{{ url('/table') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark"
-                                   data-bs-placement="right" data-bs-title="Table">
-                                    <i class="bi bi-table me-3"></i>
-                                    <span class="submenu-title">Denah</span>
-                                </a>
-                                <a href="{{ url('/form') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark"
-                                   data-bs-placement="right" data-bs-title="Form">
-                                    <i class="bi bi-input-cursor me-3"></i>
-                                    <span class="submenu-title">Form</span>
-                                </a>
-                                <a href="{{ url('/settings') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark"
-                                   data-bs-placement="right" data-bs-title="Settings">
-                                    <i class="bi bi-gear me-3"></i>
-                                    <span class="submenu-title">Settings</span>
+                                <!-- Add More Menus -->
+                                <a href="{{ url('/surat') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('surat') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                    <i class="bi bi-envelope me-3"></i>
+                                    <span class="submenu-title">Surat Perijinan</span>
                                 </a>
                             </div>
                         </div>

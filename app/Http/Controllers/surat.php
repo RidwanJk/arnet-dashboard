@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class surat extends Controller
 {
     public function index()
     {
         // Pass any required data to the view
-        return view('denah');
+        return view('surat');
     }
-
-
 }

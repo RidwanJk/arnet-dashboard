@@ -1,6 +1,6 @@
 <header class="bd-header shadow z-3">
     <!-- NAVBAR -->
-    <nav class="bg-white p-3">
+    <nav class="bg-black p-3">
         <h5 class="m-0">
             <button class="btn btn-link d-inline-block d-lg-none" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#sidebar">
@@ -9,7 +9,7 @@
             <button class="btn btn-link d-none d-lg-inline-block" type="button" id="sidebar-toggler">
                 <i class="bi bi-list"></i>
             </button>
-            <a href="#home" class="text-dark text-decoration-none">Dashboard</a>
+            <a href="#home" class="text-light text-decoration-none">Dashboard</a>
         </h5>
     </nav>
     <!-- END OF NAVBAR -->

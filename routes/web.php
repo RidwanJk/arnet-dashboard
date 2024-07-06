@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\surat;
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/table', [DashboardController::class, 'showTable'])->name('table');
-Route::get('/form', [DashboardController::class, 'showForm'])->name('form');
+Route::get('/denah', [DashboardController::class, 'index'])->name('denah');
+Route::get('/surat', [surat::class, 'index'])->name('surat');
+Route::get('/form', [DashboardController::class, 'showForm'])->name('dashboard');
 
 // Add other routes as needed
