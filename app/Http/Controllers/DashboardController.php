@@ -11,6 +11,11 @@ class DashboardController extends Controller
         // Pass any required data to the view
         return view('denah');
     }
-
+    
+    public function showForm()
+    {
+        // Pass any required data to the view
+        return view('formdenah');
+    }
 
 }

@@ -15,9 +15,9 @@
             <div class="card-body">
                 <h6 class="card-title text-uppercase">Data Denah STO</h6>
                 <div>
-                    <button class="btn btn-primary mb-4 mt-3" data-bs-toggle="modal" data-bs-target="#userFormModal">
+                    <a href="/form" class="btn btn-primary mb-4 mt-3">
                         <i class="bi bi-plus me-3"></i>Tambah Denah STO
-                    </button>
+                    </a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered w-100" id="example">

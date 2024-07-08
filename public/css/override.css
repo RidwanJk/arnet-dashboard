@@ -27,6 +27,14 @@
     --bs-btn-disabled-border-color: #0
 }
 
+.bg-light {    
+    background-color:#89211e!important;
+}
+
+.dsc {
+    background-color: #00000091;
+    
+}
 
 
 /* Apply custom variables to sidebar */
