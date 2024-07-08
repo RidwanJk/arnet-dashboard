@@ -5,9 +5,6 @@
 
 @section('content')
 
-
-
-
 <!-- TABLE -->
 <div class="row">
     <div class="col-12">

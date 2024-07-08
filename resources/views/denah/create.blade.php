@@ -28,7 +28,7 @@
         <div class="card">
             <div class="card-body">
                 <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                <button type="reset" class="btn btn-secondary btn-lg">Reset</button>
+                <button type="reset" class="btn btn-secondary btn-lg">Cancel</button>
             </div>
         </div>
         <!-- END OF ACTION BUTTONS -->

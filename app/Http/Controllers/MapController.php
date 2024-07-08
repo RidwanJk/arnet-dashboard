@@ -13,7 +13,8 @@ class MapController extends Controller
      */
     public function index()
     {
-        
+        // Pass any required data to the view
+        return view('denah/index');
     }
 
     /**
@@ -21,7 +22,8 @@ class MapController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('denah/create');
     }
 
     /**

@@ -46,20 +46,18 @@
                 <form action="" method="post">
                   <h3 class="text-center">Welcome Back!</h3>
                   <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <label for="username" class="form-label">Username</label>
+                    <input type="username" class="form-control" id="username" name="username" required>
                   </div>
                   <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required>
-                  </div>
-                  <p>
-                    <a href="./forgot-password.html">Forgot Password?</a>
-                  </p>
+                  </div>          
                   <div class="d-grid gap-2 mb-3">
                     <!-- <button type="submit" class="btn btn-primary">Login</button> -->
-                    <a href="./index.html" class="btn btn-primary">Login</a>
-                    <a href="./register.html" class="btn btn-secondary">Sign Up</a>
+                    <a href="./denah" class="btn btn-primary">Login</a>
+                    <div class="or text-center">OR</div>
+                    <a href="./register" class="btn btn-secondary">Sign Up</a>
                   </div>
                 </form>
               </div>
