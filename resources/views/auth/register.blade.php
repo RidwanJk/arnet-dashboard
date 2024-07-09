@@ -35,7 +35,7 @@
 
 <body style="background-color: var(--bs-gray-900);">
   <div class="bd-login-layout bg-light d-block d-lg-flex">
-
+    
     <section class="bd-login-form">
       <!-- login form -->
       <div class="container">
@@ -43,21 +43,30 @@
           <div class="col-md-6">
             <div class="card lgn">
               <div class="card-body">
-                <form action="" method="post">
-                  <h3 class="text-center">Welcome Back!</h3>
+                <h3 class="text-center">Selamat Datang!</h3>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="./signup" method="post">
+                  @csrf
                   <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="username" class="form-control" id="username" name="username" required>
+                    <label for="name" class="form-label">Username</label>
+                    <input type="name" class="form-control" id="name" name="name" required>
                   </div>
                   <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required>
-                  </div>          
+                  </div>
                   <div class="d-grid gap-2 mb-3">
-                    <!-- <button type="submit" class="btn btn-primary">Login</button> -->
-                    <a href="./denah" class="btn btn-primary">Login</a>
-                    <div class="or text-center">OR</div>
-                    <a href="./register" class="btn btn-secondary">Sign Up</a>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <div class="or text-center">Already have account?</div>
+                    <a href="./login" class="btn btn-secondary">Sign In</a>
                   </div>
                 </form>
               </div>

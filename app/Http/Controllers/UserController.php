@@ -4,33 +4,64 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('auth/login');
-    }
 
     public function register()
     {
         return view('auth/register');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function signup(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:12|unique:users',
+            'password' => 'required|string',
+        ]);
+
+        $this->create($request->all());
+
+        return redirect('/login');
+    }
+    public function index()
+    {
+
+        return view('auth/login');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function signin(Request $request)
+    {
+
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only('name', 'password');
+
+        $user = User::where('name', $credentials['name'])->first();
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            $request->session()->put('user_id', $user->id);
+            return redirect()->route('denah');
+        } else {
+            return redirect()->route('login')->with('error', 'Username atau password salah.');
+        }
+    }
+
+
+    public function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'password' => Hash::make($data['password']),
+            'role' => '1',
+        ]);
+    }
+
     public function store(Request $request)
     {
         //
