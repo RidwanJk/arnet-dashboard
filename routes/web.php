@@ -13,9 +13,6 @@ Route::post('/signin', [UserController::class, 'signin'])->name('signin');
 Route::post('/signup', [UserController::class, 'signup'])->name('signup');
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::get('/denah', [MapController::class, 'index'])->name('denah');
-Route::get('/form', [MapController::class, 'create'])->name('formdenah');
+Route::get('/adddenah', [MapController::class, 'create'])->name('adddenah');
+Route::post('/storedenah', [MapController::class, 'store'])->name('storedenah');
 Route::get('/surat', [surat::class, 'index'])->name('surat');
-
-
-
-// Add other routes as needed
