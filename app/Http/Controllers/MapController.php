@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Map;
-use App\Http\Requests\UploadFileRequest;
-use App\Http\Requests\UpdateFileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 
 class MapController extends Controller
 {
@@ -22,26 +20,48 @@ class MapController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
 
-        return view('denah/create');
+        if (session()->has('user_id')) {
+            $user = User::find(session('user_id'));
+            return view('denah/create', ['user' => $user]);
+        } else {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(UploadFileRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'file' => 'required|file|max:2048'
+        ]);
+
+        $validator->after(function ($validator) use ($request) {
+            if ($request->file('file')->getClientOriginalExtension() !== 'vsd') {
+                $validator->errors()->add('file', 'The file must be a file of type: vsd.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if ($request->file('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+        }
+    
+        $denah = new Map();
+        $denah->name = $request->input('name');
+        $denah->file = asset('storage/' . $filePath);
+        $denah->save();
+
+        return redirect()->to('denah')->with('success', 'Denah STO berhasil disimpan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Map $map)
     {
         //

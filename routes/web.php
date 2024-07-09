@@ -19,14 +19,10 @@ Route::post('/signup', [UserController::class, 'signup'])->name('signup');
 // Map
 Route::get('/denah', [MapController::class, 'index'])->name('denah');
 Route::resource('denah', MapController::class);
-Route::get('/form', [MapController::class, 'create'])->name('formdenah');
+Route::get('/adddenah', [MapController::class, 'create'])->name('adddenah');
+Route::post('/storedenah', [MapController::class, 'store'])->name('storedenah');
 Route::delete('/delete/{id}', [MapController::class, 'create'])->name('deletedenah');
 
 
 // Surat
 Route::get('/surat', [surat::class, 'index'])->name('surat');
-
-
-
-// Add other routes as needed
-
