@@ -31,19 +31,15 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $d->name }}</td>
-                                
+
                                 <td><a href="{{ $d->file }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a></td>
                                 <td class="text-center">
-                                    <a href="/denah/{{ $d->id }}/edit" class="btn btn-warning btn-sm">
+                                    <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning btn-sm">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="/denah/{{ $d->id }}" method="post" class="d-inline">
-                                        @method('delete')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -56,7 +52,30 @@
 </div>
 <!-- END OF TABLE -->
 
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this item?</p>
+            </div>
 
-
+            <div class="modal-footer">
+                <input type="text" value="<?= $denah->id ?>">                
+                <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END OF DELETE MODAL -->
 
 @endsection
+<script>
+    const handleDelete = (id) => document.querySelector('#deleteModal .modal-footer a').href = 'denah/d' + id;
+    // DataTables
+</script>
