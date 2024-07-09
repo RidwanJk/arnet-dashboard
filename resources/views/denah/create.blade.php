@@ -1,7 +1,7 @@
 <!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Tambah Denah STO')
+@section('title', 'Telkom | Tambah Denah')
 
 @section('content')
 
