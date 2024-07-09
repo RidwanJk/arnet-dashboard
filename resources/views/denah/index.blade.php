@@ -26,7 +26,29 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach ($denah as $d)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $d->name }}</td>
+                                
+                                <td><a href="{{ $d->file }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a></td>
+                                <td class="text-center">
+                                    <a href="/denah/{{ $d->id }}/edit" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="/denah/{{ $d->id }}" method="post" class="d-inline">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
                     </table>
+
                 </div>
             </div>
         </div>

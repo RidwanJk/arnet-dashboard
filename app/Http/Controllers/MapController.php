@@ -5,18 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Map;
 use App\Http\Requests\UploadFileRequest;
 use App\Http\Requests\UpdateFileRequest;
-use App\Models\User;
+
 
 class MapController extends Controller
 {
     public function index()
-    {
-        if (session()->has('user_id')) {
-            $user = User::find(session('user_id'));
-            return view('denah/index', ['user' => $user]);
+    {                
+
+        if (session()->has('user_id')) {            
+            $denah = Map::all();
+            return view('denah/index',['denah' => $denah]);
         } else {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
+
+        
+
     }
 
     /**
