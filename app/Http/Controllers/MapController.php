@@ -50,8 +50,9 @@ class MapController extends Controller
 
         if ($request->file('file')) {
             $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
+            $fileName = $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+            
         }
     
         $denah = new Map();
