@@ -32,7 +32,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $d->name }}</td>
 
-                                <td><a href="{{ $d->file }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a></td>
+                                <td><a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a></td>
                                 <td class="text-center">
                                     <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning btn-sm">
                                         <i class="bi bi-pencil"></i>
@@ -64,8 +64,7 @@
                 <p>Are you sure you want to delete this item?</p>
             </div>
 
-            <div class="modal-footer">
-                <input type="text" value="<?= $denah->id ?>">                
+            <div class="modal-footer">                
                 <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
