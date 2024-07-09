@@ -34,10 +34,10 @@
 
                                 <td><a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a></td>
                                 <td class="text-center">
-                                    <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning btn-sm">
+                                    <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
