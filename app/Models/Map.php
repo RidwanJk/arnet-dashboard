@@ -12,5 +12,6 @@ class Map extends Model
     protected $fillable = [
         'name',
         'file',
+        'pdf',
     ];
 }
