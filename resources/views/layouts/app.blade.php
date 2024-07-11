@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
     <link rel="shortcut icon" href="{{ asset('img/LOGO BULAT.png') }}">
     <link rel="stylesheet" href="{{ asset('css/override.css') }}">
-
-
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
