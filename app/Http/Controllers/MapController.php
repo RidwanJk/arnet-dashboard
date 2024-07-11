@@ -52,15 +52,15 @@ class MapController extends Controller
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
-            
+
         }
-    
+
         $denah = new Map();
         $denah->name = $request->input('name');
         $denah->file = asset('storage/' . $filePath);
         $denah->save();
 
-        return redirect()->to('denah')->with('success', 'Denah STO berhasil disimpan.');
+        return redirect()->to('/denah')->with('success', 'Denah STO berhasil disimpan.');
     }
 
     public function show(Map $map)
@@ -108,22 +108,22 @@ class MapController extends Controller
         return redirect()->route('denah.index')->with('success', 'Denah updated successfully.');
     }
 
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         // Find the item by ID
-        dd($id);
         $denah = Map::find($id);
+
+        if (!$denah) {
+            return redirect()->route('viewdenah')->with('error', 'Item not found.');
+        }
+
         // Delete the item
         $denah->delete();
 
         // Optionally, you can add a success message or redirect back
-        return redirect()->back()->with('success', 'Item deleted successfully.');
+        return redirect()->route('viewdenah')->with('success', 'Item deleted successfully.');
     }
+
 
 
 
