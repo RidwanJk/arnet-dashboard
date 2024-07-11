@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Services\VisioConverter;
 
 
 class MapController extends Controller
@@ -156,14 +157,13 @@ class MapController extends Controller
     public function preview($id)
     {
         $denah = Map::findOrFail($id);        
-        $filePath = storage_path($denah->name);
-        dd($filePath);
-        $inputPath = storage_path('app/' . $filePath);
+        $filePath = str_replace(asset('storage/'), '', $denah->file);        
+        $inputPath = storage_path($filePath);
+        
 
         
-        dd($inputPath);
         $outputDir = storage_path('app/pdf');
-        $outputPath = $outputDir . '/' . pathinfo($file->name, PATHINFO_FILENAME) . '.pdf';
+        $outputPath = $outputDir . '/' . pathinfo($denah->name, PATHINFO_FILENAME) . '.pdf';
 
         // Ensure output directory exists
         if (!is_dir($outputDir)) {
