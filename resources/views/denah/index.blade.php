@@ -5,7 +5,7 @@
 
 @section('content')
 
-    <?php if (session()->has('error')) : ?>
+    <?php if (session()->has('errors')) : ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <ul class="m-0">
             <?php foreach (session('errors') as $error) : ?>
@@ -57,9 +57,7 @@
                                             <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <button title="Delete"
-                                                class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"><i class="bi bi-trash"></i></button>
+                                            <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi bi-trash"></i></button>
                                             {{-- <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                         <i class="bi bi-trash"></i>
                                     </button> --}}
@@ -85,8 +83,10 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete this item?</p>
-                    <form action="">
-                        <input type="hidden">
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="id" id="deleteId">
                         <button type="submit" class="btn btn-primary">Delete</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </form>
@@ -96,5 +96,25 @@
     </div>
     <!-- END OF DELETE MODAL -->
 
+
 @endsection
->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+
+            var deleteForm = document.getElementById('deleteForm');
+            var deleteIdInput = document.getElementById('deleteId');
+
+            var action = "{{ route('denah.destroy', ':id') }}";
+            action = action.replace(':id', id);
+
+            deleteForm.action = action;
+            deleteIdInput.value = id;
+        });
+    });
+</script>
+
+

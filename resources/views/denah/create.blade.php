@@ -5,7 +5,7 @@
 
 @section('content')
 
-@if ($errors->any())
+    @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -15,38 +15,46 @@
         </div>
     @endif
 
-<main class="bd-main p-3 bg-light">
+    <?php if (session()->has('fileError')) :?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= session('fileError') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php endif; ?>
 
-    <form action="/storedenah" method="post" enctype="multipart/form-data">
-        @csrf
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nama File</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
-                </div>
-                <div class="mb-3">
-                    <label for="file" class="form-label">File</label>
-                    <input class="form-control" type="file" id="file" name="file" >
-                </div>
-                {{-- <div class="text-center">
+    <main class="bd-main p-3 bg-light">
+
+        <form action="/storedenah" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama File</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                            value="{{ old('name') }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File</label>
+                        <input class="form-control" type="file" id="file" name="file">
+                    </div>
+                    {{-- <div class="text-center">
                     <img src="./img/geo-alt.svg" id="preview" alt="Placeholder File" width="500" class="img-thumbnail mb-3">
                 </div> --}}
+                </div>
             </div>
-        </div>
 
-        <!-- ACTION BUTTONS -->
-        <div class="card">
-            <div class="card-body">
-                <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                <button type="reset" class="btn btn-secondary btn-lg">Cancel</button>
+            <!-- ACTION BUTTONS -->
+            <div class="card">
+                <div class="card-body">
+                    <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    <button type="button" class="btn btn-secondary btn-lg" onclick="window.location='{{ route('viewdenah') }}'">Cancel</button>
+                </div>
             </div>
-        </div>
-        <!-- END OF ACTION BUTTONS -->
+            <!-- END OF ACTION BUTTONS -->
 
-    </form>
+        </form>
 
-    <!-- <div class="bg-danger" style="height: 100vh;"></div> -->
-</main>
+        <!-- <div class="bg-danger" style="height: 100vh;"></div> -->
+    </main>
 
 @endsection

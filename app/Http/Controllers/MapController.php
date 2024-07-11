@@ -6,6 +6,8 @@ use App\Models\Map;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
 
 class MapController extends Controller
 {
@@ -38,11 +40,16 @@ class MapController extends Controller
             'file' => 'required|file|max:2048'
         ]);
 
+        if(!$request->file('file')){
+            return redirect()->back()->with('fileError', 'Harap isi file yang ingin dimasukkan.')->withInput();
+        }
+        
         $validator->after(function ($validator) use ($request) {
             if ($request->file('file')->getClientOriginalExtension() !== 'vsd') {
-                $validator->errors()->add('file', 'The file must be a file of type: vsd.');
+                $validator->errors()->add('file', 'File harus bertipe .vsd');
             }
         });
+       
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -52,7 +59,6 @@ class MapController extends Controller
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
-
         }
 
         $denah = new Map();
@@ -84,28 +90,45 @@ class MapController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Map $map)
+    public function update(Request $request, $id)
     {
-        // Validate the form data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $denah = Map::find($id);
 
-        // Update the map with the new data
-        $map->name = $request->input('name');
-
-        // Handle the file upload if there is a new file
-        if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('files', 'public');
-            $map->file = $filePath;
+        if(!$denah){
+            return redirect()->back()->with('unusual', 'Ada error mohon ulangi lagi');
         }
 
-        // Save the updated map
-        $map->save();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'file' => 'nullable|file|max:2048'
+        ]);
+    
+        if ($request->file('file') && $request->file('file')->getClientOriginalExtension() !== 'vsd') {
+            $validator->after(function ($validator) {
+                $validator->errors()->add('file', 'File harus bertipe .vsd');
+            });
+        }
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        if ($request->file('file')) {
+            if ($denah->file) {
+                $oldFilePath = str_replace(asset('storage/'), '', $denah->file);
+                Storage::disk('public')->delete($oldFilePath);
+            }
+    
+            $file = $request->file('file');
+            $fileName = $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+            $denah->file = asset('storage/' . $filePath);
+        }
+    
+        $denah->name = $request->input('name');
+        $denah->save();
 
-        // Redirect to the index page with a success message
-        return redirect()->route('denah.index')->with('success', 'Denah updated successfully.');
+        return redirect()->route('denah.index')->with('success', 'Data denah berhasil di update.');
     }
 
     public function destroy($id)
@@ -114,7 +137,7 @@ class MapController extends Controller
         $denah = Map::find($id);
 
         if (!$denah) {
-            return redirect()->route('viewdenah')->with('error', 'Item not found.');
+            return redirect()->route('viewdenah')->with('errord', 'Item not found.');
         }
 
         // Delete the item
