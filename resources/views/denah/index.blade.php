@@ -32,14 +32,10 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $d->name }}</td>
                             <td>
-                                @if($d->converted_image)
-                                    @php
-                                        $convertedImageUrl = asset($d->converted_image);
-                                    @endphp
-                                    <img src="{{ $convertedImageUrl }}" alt="{{ $d->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
-                                @else
-                                    <a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a>
-                                @endif
+                                @php
+                                    $convertedImageUrl = asset($d->converted_image);
+                                @endphp
+                                <img src="{{ $convertedImageUrl }}" alt="{{ $d->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
