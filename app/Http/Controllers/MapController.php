@@ -6,9 +6,17 @@ use App\Models\Map;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Services\VisioConverter;
+use Illuminate\Support\Facades\Storage;
 
 class MapController extends Controller
 {
+    protected $visioConverter;
+    public function __construct(VisioConverter $visioConverter)
+    {
+        $this->visioConverter = $visioConverter;
+    }
+
     public function index()
     {
 
@@ -52,9 +60,8 @@ class MapController extends Controller
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
-            
         }
-    
+
         $denah = new Map();
         $denah->name = $request->input('name');
         $denah->file = asset('storage/' . $filePath);
@@ -115,8 +122,7 @@ class MapController extends Controller
      */
     public function destroy($id)
     {
-        // Find the item by ID
-        dd($id);
+        // Find the item by ID        
         $denah = Map::find($id);
         // Delete the item
         $denah->delete();
@@ -125,6 +131,35 @@ class MapController extends Controller
         return redirect()->back()->with('success', 'Item deleted successfully.');
     }
 
+    public function preview($id)
+    {
+        $denah = Map::findOrFail($id);        
+        $filePath = storage_path($denah->name);
+        dd($filePath);
+        $inputPath = storage_path('app/' . $filePath);
 
+        
+        dd($inputPath);
+        $outputDir = storage_path('app/pdf');
+        $outputPath = $outputDir . '/' . pathinfo($file->name, PATHINFO_FILENAME) . '.pdf';
 
+        // Ensure output directory exists
+        if (!is_dir($outputDir)) {
+            mkdir($outputDir, 0755, true);
+        }
+
+        // Check if input file exists
+        if (!file_exists($inputPath)) {
+            return response()->json(['error' => 'Input file not found'], 404);
+        }
+
+        // Command to convert VSD to PDF using LibreOffice
+        $command = "soffice --headless --convert-to pdf \"$inputPath\" --outdir \"$outputDir\"";
+
+        // Execute the command
+        exec($command, $output, $return_var);
+
+        // Check if the command was successful
+        return response()->file($outputPath);
+    }
 }

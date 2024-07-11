@@ -5,35 +5,37 @@
 
 @section('content')
 
-    <!-- TABLE -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title text-uppercase">Data Denah STO</h6>
-                    <div>
-                        <a href="/adddenah" class="btn btn-primary mb-4 mt-3">
-                            <i class="bi bi-plus me-3"></i>Tambah Denah STO
-                        </a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered w-100" id="example">
-                            <thead class="text-center">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Lokasi STO</th>
-                                    <th>Denah</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
+<!-- TABLE -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase">Data Denah STO</h6>
+                <div>
+                    <a href="/adddenah" class="btn btn-primary mb-4 mt-3">
+                        <i class="bi bi-plus me-3"></i>Tambah Denah STO
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered w-100" id="example">
+                        <thead class="text-center">
+                            <tr>
+                                <th>No</th>
+                                <th>Lokasi STO</th>
+                                <th>Denah</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             @foreach ($denah as $d)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $d->name }}</td>
-
                                 <td><a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a></td>
                                 <td class="text-center">
+                                    <a href="{{ route('preview', $d->id) }}" class="btn btn-info h-20">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                     <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
                                         <i class="bi bi-pencil"></i>
                                     </a>
@@ -43,14 +45,14 @@
                                 </td>
                             </tr>
                             @endforeach
-                        </table>
+                    </table>
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- END OF TABLE -->
+</div>
+<!-- END OF TABLE -->
 
 <!-- DELETE MODAL -->
 <div class="modal fade" id="deleteModal">
@@ -64,7 +66,7 @@
                 <p>Are you sure you want to delete this item?</p>
             </div>
 
-            <div class="modal-footer">                
+            <div class="modal-footer">
                 <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
