@@ -8,7 +8,7 @@ class surat extends Controller
 {
     public function index()
     {
-        // Pass any required data to the view
+        // Pass any required data to the view     
         return view('surat');
     }
 }

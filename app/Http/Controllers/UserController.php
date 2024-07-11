@@ -62,6 +62,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function logout(Request $request)
+    {
+        $request->session()->forget('user_id');
+        $request->session()->flush();
+        return redirect()->route('login');
+    }
+
     public function store(Request $request)
     {
         //

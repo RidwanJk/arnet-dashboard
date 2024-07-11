@@ -11,12 +11,8 @@ class MapController extends Controller
 {
     public function index()
     {
-        if (session()->has('user_id')) {
-            $user = User::find(session('user_id'));
-            return view('denah/index', ['user' => $user]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+       return view('denah/index');
+        
     }
 
     /**

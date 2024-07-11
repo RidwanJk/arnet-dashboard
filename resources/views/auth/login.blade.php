@@ -90,22 +90,22 @@
 
                         <h1 class="card-title">
                             <span style="color: red;">A</span>
-                            <span style="color: yellow;">K</span>
-                            <span style="color: red;">H</span>
-                            <span style="color: orange;">L</span>
-                            <span style="color: pink;">A</span>
-                            <span style="color: cyan;">K</span>
+                            <span style="color: Orange;">K</span>
+                            <span style="color: Yellow;">H</span>
+                            <span style="color: lightGreen;">L</span>
+                            <span style="color: lightBlue;">A</span>
+                            <span style="color: Purple;">K</span>
                         </h1>
                         <div class="text-white">
                             <p class="text-justify">Merupakan core values yang dimiliki oleh BUMN sebagai identitas dan
                                 perekat budaya kerja yang mendukung peningkatan kinerja secara berkelanjutan </p>
                             <ul>
                                 <li><span style="color: red;">A</span>MANAH</li>
-                                <li><span style="color: yellow;">K</span>OMPETEN</li>
-                                <li><span style="color: red;">H</span>ARMONIS</li>
-                                <li><span style="color: orange;">L</span>OYAL</li>
-                                <li><span style="color: pink;">A</span>DAPTIF</li>
-                                <li><span style="color: cyan;">K</span>OLABORATIF</li>
+                                <li><span style="color: Orange;">K</span>OMPETEN</li>
+                                <li><span style="color: Yellow;">H</span>ARMONIS</li>
+                                <li><span style="color: lightGreen;">L</span>OYAL</li>
+                                <li><span style="color: lightBlue;">A</span>DAPTIF</li>
+                                <li><span style="color: Purple;">K</span>OLABORATIF</li>
                             </ul>
                         </div>
                     </div>
