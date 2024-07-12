@@ -1,7 +1,7 @@
 <!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Telkom | Denah STO')
+@section('title', 'Telkom | Surat STO')
 
 @section('content')
 
@@ -40,11 +40,11 @@ if (session()->has('success')):?>
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Lokasi STO</th>
-                                <th>Ruangan</th>
-                                <th>Preview</th>
-                                <th>Download file</th>
-                                <th>Action</th>
+                                <th>Nama Perangkat</th>
+                                <th>Tipe</th>
+                                <th>Merek</th>
+                                <th>Serial Number</th>
+                                <th>STO</th>                                
                             </tr>
                         </thead>
                         <tbody>
