@@ -41,8 +41,8 @@ class MapController extends Controller
             'file' => 'required|file|max:2048'
         ]);
 
-        if(!$request->file('file')){
-            return redirect()->back()->with('fileError', 'Harap isi file yang ingin dimasukkan.')->withInput();
+        if(!$request->file('file')){    
+            return redirect()->back()->with('fileError', 'Harap isi data semua data yang diperlukan')->withInput();
         }
         
         $validator->after(function ($validator) use ($request) {

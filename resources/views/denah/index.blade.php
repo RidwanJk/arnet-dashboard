@@ -41,7 +41,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Lokasi STO</th>
-                                    <th>Denah</th>
+                                    <th>Preview</th>
+                                    <th>Download file</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
