@@ -5,23 +5,23 @@
 
 @section('content')
 
-    <?php if (session()->has('errors')) : ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <ul class="m-0">
-            <?php foreach (session('errors') as $error) : ?>
-            <li><?= $error ?></li>
-            <?php endforeach; ?>
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <?php endif;
+<?php if (session()->has('errors')): ?>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <ul class="m-0">
+        <?php    foreach (session('errors') as $error): ?>
+        <li><?= $error ?></li>
+        <?php    endforeach; ?>
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php endif;
 
-    if (session()->has('success')) :?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <?= session('success') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <?php endif; ?>
+if (session()->has('success')):?>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <?= session('success') ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php endif; ?>
 
 
     <!-- TABLE -->
@@ -145,4 +145,13 @@
             deleteIdInput.value = id;
         });
     });
+
+    function showImage(imageUrl) {
+        document.getElementById('overlayImage').src = imageUrl;
+        document.getElementById('imageOverlay').style.display = "block";
+    }
+
+    function closeImageOverlay() {
+        document.getElementById('imageOverlay').style.display = "none";
+    }
 </script>
