@@ -10,7 +10,19 @@ class Map extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'sto_id',
+        'room_id',
         'file',
+        'converted_image',
     ];
+
+    public function sto()
+    {
+        return $this->belongsTo(Dropdown::class, 'sto_id');
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Dropdown::class, 'room_id');
+    }
 }

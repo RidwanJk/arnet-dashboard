@@ -29,17 +29,31 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nama File</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            value="{{ old('name') }}">
-                    </div>
+                        <label for="sto_id" class="form-label">
+                          Lokasi STO
+                        </label>
+                        <select class="form-select" id="sto_id" name="sto_id">
+                        <option value="">Pilih...</option>
+                          <?php foreach ($sto as $sto) : ?>
+                            <option value="<?= $sto->id ?>" <?= old('sto_id') == $sto->id ? 'selected' : '' ?>><?= $sto->subtype?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="room_id" class="form-label">
+                          Tipe Ruangan
+                        </label>
+                        <select class="form-select" id="room_id" name="room_id">
+                        <option value="">Pilih...</option>
+                          <?php foreach ($room as $room) : ?>
+                            <option value="<?= $room->id ?>" <?= old('room_id') == $room->id ? 'selected' : '' ?>><?= $room->subtype?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
                     <div class="mb-3">
                         <label for="file" class="form-label">File</label>
                         <input class="form-control" type="file" id="file" name="file">
                     </div>
-                    {{-- <div class="text-center">
-                    <img src="./img/geo-alt.svg" id="preview" alt="Placeholder File" width="500" class="img-thumbnail mb-3">
-                </div> --}}
                 </div>
             </div>
 

@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maps', function (Blueprint $table) {
+        Schema::create('dropdowns', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('file');
-            $table->string('converted_image')->nullable();
+            $table->string('type');
+            $table->string('subtype');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('maps');
+        //
     }
 };

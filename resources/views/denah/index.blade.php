@@ -41,6 +41,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Lokasi STO</th>
+                                    <th>Tipe Ruangan</th>
                                     <th>Preview</th>
                                     <th>Download file</th>
                                     <th>Action</th>
@@ -50,7 +51,8 @@
                                 @foreach ($denah as $d)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $d->name }}</td>
+                                        <td>{{ $d->sto->subtype }}</td>
+                                        <td>{{ $d->room->subtype }}</td>
                                         <td>
                                             @php
                                                 $convertedImageUrl = $d->converted_image
@@ -60,7 +62,7 @@
                                             @if ($convertedImageUrl)
                                                 <a href="javascript:void(0);"
                                                     onclick="showImage('{{ $convertedImageUrl }}')">
-                                                    <img src="{{ $convertedImageUrl }}" alt="{{ $d->name }}"
+                                                    <img src="{{ $convertedImageUrl }}" alt="{{ $d->sto->subtype }}"
                                                         class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                                 </a>
                                             @else
@@ -70,15 +72,18 @@
                                             @endif
                                         </td>
                                         <td><a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary"
-                                            download><i class="bi bi-download"></i></a></td>
+                                                download><i class="bi bi-download"></i></a></td>
                                         <td class="text-center">
                                             <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal"
+                                            <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+                                                    class="bi bi-trash"></i></button>
+                                            {{-- <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModal" onclick="handleDelete({{ $d->id }})">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -90,49 +95,54 @@
     </div>
     <!-- END OF TABLE -->
 
-{{-- IMAGE OVERLAY --}}
-<div id="imageOverlay" class="image-overlay" style="display: none;">
-    <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
-    <img id="overlayImage" src="" class="overlay-image">
-</div>
-{{-- END OF IMAGE OVERLAY --}}
+    {{-- IMAGE OVERLAY --}}
+    <div id="imageOverlay" class="image-overlay" style="display: none;">
+        <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
+        <img id="overlayImage" src="" class="overlay-image">
+    </div>
+    {{-- END OF IMAGE OVERLAY --}}
 
-<!-- DELETE MODAL -->
-<div class="modal fade" id="deleteModal">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this item?</p>
-            </div>
-
-            <div class="modal-footer">                
-                <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    <!-- DELETE MODAL -->
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this item?</p>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="id" id="deleteId">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- END OF DELETE MODAL -->
+    <!-- END OF DELETE MODAL -->
 
 
 
 @endsection
 <script>
-    const handleDelete = (id) => {
-        const form = document.getElementById('deleteForm');
-        form.action = `/denah/${id}`;
-    };
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
 
-    function showImage(imageUrl) {
-        document.getElementById('overlayImage').src = imageUrl;
-        document.getElementById('imageOverlay').style.display = "block";
-    }
+            var deleteForm = document.getElementById('deleteForm');
+            var deleteIdInput = document.getElementById('deleteId');
 
-    function closeImageOverlay() {
-        document.getElementById('imageOverlay').style.display = "none";
-    }
+            var action = "{{ route('denah.destroy', ':id') }}";
+            action = action.replace(':id', id);
+
+            deleteForm.action = action;
+            deleteIdInput.value = id;
+        });
+    });
 </script>
