@@ -151,7 +151,9 @@ class MapController extends Controller
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+            $convertedImagePath = $this->convertVsdToImage($filePath);
             $denah->file = asset('storage/' . $filePath);
+            $denah->converted_image = asset($convertedImagePath);
         }
     
         $denah->name = $request->input('name');

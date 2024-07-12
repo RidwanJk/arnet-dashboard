@@ -58,7 +58,7 @@
                     <div class="card">
                         <div class="card-body">
                             <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                            <button type="reset" class="btn btn-secondary btn-lg">Cancel</button>
+                            <a href="{{route('viewdenah')}}" class="btn btn-secondary btn-lg">Cancel</a>
                         </div>
                     </div>
                     <!-- END OF ACTION BUTTONS -->
