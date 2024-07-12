@@ -38,7 +38,7 @@
                                     <span class="submenu-title">Denah STO</span>
                                 </a>
                                 <!-- Add More Menus -->
-                                <a href="{{ url('/surat') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('surat') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                <a href="{{ url('/document') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-envelope me-3"></i>
                                     <span class="submenu-title">Surat Perijinan</span>
                                 </a>

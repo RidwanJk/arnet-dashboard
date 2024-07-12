@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use App\Models\Document;
+use App\Models\Document;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -15,8 +15,9 @@ class DocumentController extends Controller
     {
 
         if (session()->has('user_id')) {
-            $document = Document::all();
-            return view('surat/index', ['surat' => $document]);
+            return view('surat/index');
+            // $document = Document::all();
+            // return view('surat/index', ['surat' => $document]);
         } else {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
