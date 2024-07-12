@@ -21,7 +21,7 @@ Route::get('/viewdenah', [MapController::class, 'index'])->name('viewdenah');
 Route::resource('denah', MapController::class);
 Route::get('/adddenah', [MapController::class, 'create'])->name('adddenah');
 Route::post('/storedenah', [MapController::class, 'store'])->name('storedenah');
-Route::post('/storedenah', [MapController::class, 'store'])->name('storedenah');
+Route::delete('/denah/{id}', [MapController::class, 'destroy'])->name('deletedenah');
 
 
 // Surat

@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Log;
 
 class MapController extends Controller
 {
@@ -35,6 +35,7 @@ class MapController extends Controller
 
     public function store(Request $request)
     {
+        Log::info('Store method called');
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'file' => 'required|file|max:2048'
@@ -52,22 +53,32 @@ class MapController extends Controller
        
 
         if ($validator->fails()) {
+            Log::info('Validation failed');
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         if ($request->file('file')) {
+            Log::info('File upload detected');
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+            $convertedImagePath = $this->convertVsdToImage($filePath);
+            Log::info('Converted image path: ' . $convertedImagePath);
         }
 
         $denah = new Map();
         $denah->name = $request->input('name');
         $denah->file = asset('storage/' . $filePath);
+        $denah->converted_image = asset($convertedImagePath);
         $denah->save();
+
+        Log::info('Denah saved');
+
+        Log::info('Denah saved');
 
         return redirect()->to('/denah')->with('success', 'Denah STO berhasil disimpan.');
     }
+
 
     public function show(Map $map)
     {
@@ -80,12 +91,30 @@ class MapController extends Controller
     public function edit(Map $denah)
     {
         if (session()->has('user_id')) {
+            $denah = Map::find($denah->id);
             return view('denah.edit', ['denah' => $denah]);
         } else {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
     }
 
+    public function convertVsdToImage($filePath)
+    {
+        $outputPath = storage_path('app/public/converted_images/' . pathinfo($filePath, PATHINFO_FILENAME) . '.png');
+        $command = "soffice --headless --convert-to png --outdir " . escapeshellarg(dirname($outputPath)) . " " . escapeshellarg(storage_path('app/public/' . $filePath));
+        $output = shell_exec($command . " 2>&1");
+
+        Log::info("Conversion command: " . $command);
+        Log::info("Conversion output: " . $output);
+
+        if (file_exists($outputPath)) {
+            Log::info("File exists: " . $outputPath);
+            return 'storage/converted_images/' . basename($outputPath);
+        } else {
+            Log::error("File not found after conversion: " . $outputPath);
+            return null;
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -134,6 +163,7 @@ class MapController extends Controller
     public function destroy($id)
     {
         // Find the item by ID
+        dd($id);
         $denah = Map::find($id);
 
         if (!$denah) {
@@ -146,7 +176,6 @@ class MapController extends Controller
         // Optionally, you can add a success message or redirect back
         return redirect()->route('viewdenah')->with('success', 'Item deleted successfully.');
     }
-
 
 
 
