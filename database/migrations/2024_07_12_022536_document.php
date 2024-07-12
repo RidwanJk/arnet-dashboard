@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('device');
             $table->unsignedBigInteger('type_id');
-            $table->string('merk')->nullable();
+            $table->string('brand')->nullable();
             $table->string('serial');
             $table->unsignedBigInteger('sto_id');
             $table->timestamps();
