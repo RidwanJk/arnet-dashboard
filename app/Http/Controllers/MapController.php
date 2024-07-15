@@ -171,7 +171,4 @@ class MapController extends Controller
         // Optionally, you can add a success message or redirect back
         return redirect()->route('viewdenah')->with('success', 'Item deleted successfully.');
     }
-
-
-
 }

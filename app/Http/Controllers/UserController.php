@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Map;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Auth;
@@ -99,8 +100,16 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $document = Map::find($id);
+
+        if (!$document) {
+            return redirect()->route('viewdocument')->with('error', 'Item not found.');
+        }
+
+        $document->delete();
+
+        return redirect()->route('viewdocument')->with('success', 'Item deleted successfully.');
     }
 }

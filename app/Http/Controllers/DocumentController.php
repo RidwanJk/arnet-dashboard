@@ -134,18 +134,13 @@ class DocumentController extends Controller
 
     public function destroy($id)
     {
-        // Find the item by ID
-        dd($id);
-        $surat = Document::find($id);
+        try {
+            $document = Document::findOrFail($id);
+            $document->delete();
 
-        if (!$surat) {
-            return redirect()->route('viewsurat')->with('errord', 'Item not found.');
+            return redirect()->route('document.index')->with('success', 'Document deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('document.index')->with('errors', [$e->getMessage()]);
         }
-
-        // Delete the item
-        $surat->delete();
-
-        // Optionally, you can add a success message or redirect back
-        return redirect()->route('viewsurat')->with('success', 'Item deleted successfully.');
     }
 }
