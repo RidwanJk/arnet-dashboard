@@ -14,26 +14,16 @@ class MapController extends Controller
 {
     public function index()
     {
-
-        if (session()->has('user_id')) {
-            $denah = Map::with(['sto', 'room'])->get();
-            return view('denah/index', ['denah' => $denah]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $denah = Map::with(['sto', 'room'])->get();
+        return view('denah/index', ['denah' => $denah]);
     }
 
     public function create()
     {
-
-        if (session()->has('user_id')) {
-            $user = User::find(session('user_id'));
-            $sto = Dropdown::where('type', 'sto')->get();
-            $room = Dropdown::where('type', 'room')->get();
-            return view('denah/create', ['room' => $room, 'sto' => $sto]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $user = User::find(session('user_id'));
+        $sto = Dropdown::where('type', 'sto')->get();
+        $room = Dropdown::where('type', 'room')->get();
+        return view('denah/create', ['room' => $room, 'sto' => $sto]);
     }
 
     public function store(Request $request)
@@ -90,14 +80,10 @@ class MapController extends Controller
      */
     public function edit(Map $denah)
     {
-        if (session()->has('user_id')) {
-            $sto = Dropdown::where('type', 'sto')->get();
-            $room = Dropdown::where('type', 'room')->get();
-            $denah = Map::find($denah->id);
-            return view('denah.edit', ['denah' => $denah, 'sto' => $sto, 'room' => $room]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $sto = Dropdown::where('type', 'sto')->get();
+        $room = Dropdown::where('type', 'room')->get();
+        $denah = Map::find($denah->id);
+        return view('denah.edit', ['denah' => $denah, 'sto' => $sto, 'room' => $room]);
     }
 
     public function convertVsdToImage($filePath)

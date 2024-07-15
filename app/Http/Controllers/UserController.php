@@ -45,12 +45,18 @@ class UserController extends Controller
         $user = User::where('name', $credentials['name'])->first();
         if ($user && Hash::check($credentials['password'], $user->password)) {
             $request->session()->put('user_id', $user->id);
-            return redirect()->route('viewdenah');
+            return redirect()->route('denah.index');
         } else {
             return redirect()->route('login')->with('error', 'Username atau password salah.');
         }
     }
 
+    public function logout(Request $request)
+    {
+        $request->session()->forget('user_id');
+        $request->session()->flush();
+        return redirect()->route('login');
+    }
 
     public function create(array $data)
     {

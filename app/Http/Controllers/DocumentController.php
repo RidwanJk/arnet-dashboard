@@ -13,25 +13,15 @@ class DocumentController extends Controller
 {
     public function index()
     {
-
-        if (session()->has('user_id')) {
-            return view('surat/index');            
-            // $document = Document::all();
-            // return view('surat/index', ['surat' => $document]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        return view('surat/index');            
+        // $document = Document::all();
+        // return view('surat/index', ['surat' => $document]);
     }
 
     public function create()
     {
-
-        if (session()->has('user_id')) {
-            $user = User::find(session('user_id'));
-            return view('surat/create', ['user' => $user]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $user = User::find(session('user_id'));
+        return view('surat/create', ['user' => $user]);
     }
 
     public function store(Request $request)
@@ -96,12 +86,8 @@ class DocumentController extends Controller
      */
     public function edit(Document $surat)
     {
-        if (session()->has('user_id')) {
-            $surat = Document::find($surat->id);
-            return view('surat.edit', ['surat' => $surat]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $surat = Document::find($surat->id);
+        return view('surat.edit', ['surat' => $surat]);
     }
 
     /**

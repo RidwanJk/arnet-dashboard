@@ -42,6 +42,10 @@
                                     <i class="bi bi-envelope me-3"></i>
                                     <span class="submenu-title">Surat Perijinan</span>
                                 </a>
+                                <a href="{{ route('logout') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('logout') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Logout">
+                                    <i class="bi bi-envelope me-3"></i>
+                                    <span class="submenu-title">Logout</span>
+                                </a>
                             </div>
                         </div>
                     </div>
