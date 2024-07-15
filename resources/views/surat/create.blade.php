@@ -34,10 +34,17 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="status" class="form-label">Tipe</label>
-                    <select class="form-select" id="status" name="status">
-                        <!-- <option value="active">Active</option>
-                        <option value="inactive">Inactive</option> -->
+                    <label for="device" class="form-label">Device</label>
+                    <input type="text" class="form-control" id="device" name="device" value="{{ old('device') }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="type_id" class="form-label">Tipe</label>
+                    <select class="form-select" id="type_id" name="type_id">
+                    <option value="">Pilih...</option>
+                          <?php foreach ($type as $type) : ?>
+                            <option value="<?= $type->id ?>" <?= old('type_id') == $type->id ? 'selected' : '' ?>><?= $type->subtype?></option>
+                          <?php endforeach; ?>
                     </select>
                 </div>
 
@@ -47,18 +54,24 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="serial_number" class="form-label">Serial Number</label>
-                    <input type="text" class="form-control" id="serial_number" name="serial_number"
+                    <label for="serial" class="form-label">Serial Number</label>
+                    <input type="text" class="form-control" id="serial" name="serial"
                         value="{{ old('serial_number') }}">
-
                 </div>
 
                 <div class="mb-3">
-                    <label for="sto" class="form-label">STO</label>
-                    <select class="form-select" id="sto" name="sto">
-                        <!-- <option value="active">Active</option>
-                        <option value="inactive">Inactive</option> -->
+                    <label for="sto_id" class="form-label">STO</label>
+                    <select class="form-select" id="sto_id" name="sto_id">
+                     <option value="">Pilih...</option>
+                          <?php foreach ($sto as $sto) : ?>
+                            <option value="<?= $sto->id ?>" <?= old('sto_id') == $sto->id ? 'selected' : '' ?>><?= $sto->subtype?></option>
+                          <?php endforeach; ?>
                     </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="file" class="form-label">File</label>
+                    <input class="form-control" type="file" id="file" name="file">
                 </div>
             </div>
 

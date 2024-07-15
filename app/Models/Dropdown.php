@@ -31,6 +31,6 @@ class Dropdown extends Model
 
     public function typeDocs()
     {
-        return $this->hasMany(Document::class, 'dtype_id');
+        return $this->hasMany(Document::class, 'type_id');
     }
 }

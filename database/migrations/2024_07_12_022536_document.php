@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('device');
             $table->unsignedBigInteger('type_id');
             $table->string('brand')->nullable();
             $table->string('serial');
             $table->unsignedBigInteger('sto_id');
+            $table->binary('file');
             $table->timestamps();
 
             $table->foreign('sto_id')->references('id')->on('dropdowns')->onDelete('cascade');

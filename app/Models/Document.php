@@ -10,16 +10,16 @@ class Document extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'device',
-        'tyoe_id',
+        'type_id',
         'brand',
         'serial',
         'sto_id',
+        'file',
     ];
 
     public function deviceType()
     {
-        return $this->belongsTo(Dropdown::class, 'dtype_id');
+        return $this->belongsTo(Dropdown::class, 'type_id');
     }
 
     public function sto()

@@ -38,7 +38,7 @@ class MapController extends Controller
 
         $validator->after(function ($validator) use ($request) {
             if (!$request->file('file')) {
-                // $validator->errors()->add('fileError', 'file is required');
+                $validator->errors()->add('fileError', 'file is required');
             } elseif ($request->file('file')->getClientOriginalExtension() !== 'vsd') {
                 $validator->errors()->add('file', 'File must be type of .vsd');
             }
@@ -123,7 +123,7 @@ class MapController extends Controller
 
         if ($request->file('file') && $request->file('file')->getClientOriginalExtension() !== 'vsd') {
             $validator->after(function ($validator) {
-                $validator->errors()->add('file', 'File must be  of .vsd');
+                $validator->errors()->add('file', 'File must be of .vsd');
             });
         }
 

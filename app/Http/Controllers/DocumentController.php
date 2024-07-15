@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Document;
+use App\Models\Dropdown;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -12,73 +13,67 @@ use Illuminate\Support\Facades\Log;
 class DocumentController extends Controller
 {
     public function index()
-    {
-        return view('surat/index');            
-        // $document = Document::all();
-        // return view('surat/index', ['surat' => $document]);
+    {         
+        $document = Document::all();
+        return view('surat/index', ['surat' => $document]);
     }
 
     public function create()
     {
         $user = User::find(session('user_id'));
-        return view('surat/create', ['user' => $user]);
+        $sto = Dropdown::where('type', 'sto')->get();
+        $type = Dropdown::where('type', 'type')->get();
+        return view('surat/create', ['sto' => $sto, 'type'=>$type]);
     }
 
     public function store(Request $request)
     {
+        Log::info('Store method called');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'type_id' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'serial' => 'required|string|max:255',
+            'sto_id' => 'required|string|max:255',
+            'file'=> 'required|mimes:pdf|max:2048'
+        ]);
 
+        if (!$request->file('file')) {
+            return redirect()->back()->with('fileError', 'Harap isi data semua data yang diperlukan')->withInput();
+        }
 
-        // Log::info('Store method called');
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|string|max:255',
-        //     'type' => 'required|string|max:255',
-        //     'brand' => 'required|string|max:255',
-        //     'serial_number' => 'required|string|max:255',
-        //     'sto' => 'required|string|max:255',
-        // ]);
+        if ($validator->fails()) {
+            Log::info('Validation failed');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-        // if (!$request->file('file')) {
-        //     return redirect()->back()->with('fileError', 'Harap isi data semua data yang diperlukan')->withInput();
-        // }
+        Log::info('File upload detected');
+        $file = $request->file('file');
+        $filedata = file_get_contents($file);
+        $fileName = $file->getClientOriginalName();
+        $filePath = $file->storeAs('uploads/surat', $fileName, 'public');
+        
 
-        // $validator->after(function ($validator) use ($request) {
-        //     if ($request->file('file')->getClientOriginalExtension() !== 'vsd') {
-        //         $validator->errors()->add('file', 'File harus bertipe .vsd');
-        //     }
-        // });
+        $surat = new Document();
+        $surat->name = $request->input('name');
+        $surat->type_id = $request->input('type_id');
+        $surat->brand = $request->input('brand');
+        $surat->serial = $request->input('serial');
+        $surat->sto_id = $request->input('sto_id');
+        $surat->file = $filedata;
+        $surat->save();
 
+        Log::info('surat saved');
 
-        // if ($validator->fails()) {
-        //     Log::info('Validation failed');
-        //     return redirect()->back()->withErrors($validator)->withInput();
-        // }
-
-        // if ($request->file('file')) {
-        //     Log::info('File upload detected');
-        //     $file = $request->file('file');
-        //     $fileName = $file->getClientOriginalName();
-        //     $filePath = $file->storeAs('uploads/surat', $fileName, 'public');
-        //     $convertedImagePath = $this->convertVsdToImage($filePath);
-        //     Log::info('Converted image path: ' . $convertedImagePath);
-        // }
-
-        // $surat = new Document();
-        // $surat->name = $request->input('name');
-        // $surat->file = asset('storage/' . $filePath);
-        // $surat->converted_image = asset($convertedImagePath);
-        // $surat->save();
-
-        // Log::info('surat saved');
-
-        // Log::info('surat saved');
-
-        // return redirect()->to('/surat')->with('success', 'surat STO berhasil disimpan.');
+        return redirect()->to('/document')->with('success', 'surat STO berhasil disimpan.');
     }
 
 
-    public function show(Document $Document)
+    public function show($id)
     {
-        //
+        $document = Document::findOrFail($id);
+        return response($document->file)
+            ->header('Content-Type', 'application/pdf');
     }
 
     /**

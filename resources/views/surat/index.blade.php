@@ -45,13 +45,27 @@ if (session()->has('success')):?>
                                 <th>Merek</th>
                                 <th>Serial Number</th>
                                 <th>STO</th>
+                                <th>Preview</th>
                             </tr>
                         </thead>
+                        <tbody>
+                                @foreach ($surat as $d)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $d->name }}</td>
+                                        <td>{{ $d->deviceType->subtype }}</td>
+                                        <td>{{ $d->brand }}</td>
+                                        <td>{{ $d->serial }}</td>
+                                        <td>{{ $d->sto->subtype }}</td>
+                                        <td> <button onclick="viewPDF('{{ $d->id }}')">Lihat PDF</button></td>
+                                    </tr>
+                                @endforeach
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 <!-- END OF TABLE -->
 
@@ -100,4 +114,10 @@ if (session()->has('success')):?>
     function closeImageOverlay() {
         document.getElementById('imageOverlay').style.display = "none";
     }
+
+    
+    function viewPDF(id) {
+        window.open('/document/' + id, '_blank');
+    }    
+
 </script>
