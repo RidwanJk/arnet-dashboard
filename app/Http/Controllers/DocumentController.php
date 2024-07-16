@@ -22,7 +22,7 @@ class DocumentController extends Controller
     {
         $user = User::find(session('user_id'));
         $sto = Dropdown::where('type', 'sto')->get();
-        $type = Dropdown::where('type', 'type')->get();
+        $type = Dropdown::where('type', 'room')->get();
         return view('surat/create', ['sto' => $sto, 'type' => $type]);
     }
 
@@ -49,7 +49,6 @@ class DocumentController extends Controller
 
         Log::info('File upload detected');
         $file = $request->file('file');
-        $filedata = file_get_contents($file);
         $fileName = $file->getClientOriginalName();
         $filePath = $file->storeAs('uploads/surat', $fileName, 'public');
 
@@ -60,7 +59,7 @@ class DocumentController extends Controller
         $surat->brand = $request->input('brand');
         $surat->serial = $request->input('serial');
         $surat->sto_id = $request->input('sto_id');
-        $surat->file = $filedata;
+        $surat->file = asset('storage/' . $filePath);
         $surat->save();
 
         Log::info('surat saved');
@@ -69,12 +68,13 @@ class DocumentController extends Controller
     }
 
 
-    public function show($id)
-    {
-        $document = Document::findOrFail($id);
-        return response($document->file)
-            ->header('Content-Type', 'application/pdf');
-    }
+
+    // public function show($id)
+    // {
+    //     $document = Document::findOrFail($id);
+    //     return response($document->file)
+    //         ->header('Content-Type', 'application/pdf');
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -85,7 +85,7 @@ class DocumentController extends Controller
     {
         $surat = Document::find($id);
         $sto = Dropdown::where('type', 'sto')->get();
-        $type = Dropdown::where('type', 'type')->get();
+        $type = Dropdown::where('type', 'room')->get();
         return view('surat.edit', ['surat' => $surat, 'sto' => $sto, 'type' => $type]);
     }
 
@@ -98,11 +98,11 @@ class DocumentController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'type_id' => 'required|string|max:255',
-            'brand' => 'required|string|max:255',
-            'serial' => 'required|string|max:255',
-            'sto_id' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
+            'type_id' => 'nullable|string|max:255',
+            'brand' => 'nullable|string|max:255',
+            'serial' => 'nullable|string|max:255',
+            'sto_id' => 'nullable|string|max:255',
             'file' => 'nullable|mimes:pdf|max:2048'
         ]);
 

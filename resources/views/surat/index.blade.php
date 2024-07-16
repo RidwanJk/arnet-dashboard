@@ -43,26 +43,32 @@
                                 <th>Merek</th>
                                 <th>Serial Number</th>
                                 <th>STO</th>
-                                <th>Preview</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($surat as $d)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $d->name }}</td>
-                                    <td>{{ $d->deviceType->subtype }}</td>
-                                    <td>{{ $d->brand }}</td>
-                                    <td>{{ $d->serial }}</td>
-                                    <td>{{ $d->sto->subtype }}</td>
-                                    <td>
-                                        <button onclick="viewPDF('{{ $d->id }}')">Lihat PDF</button>
-                                        <a href="{{ route('document.edit', ['id' => $d->id]) }}"
-                                            class="btn btn-warning">Edit</a>
-                                        <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
-                                            data-bs-toggle="modal" data-bs-target="#handleDelete">Delete</button>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $d->name }}</td>
+                                <td>{{ $d->deviceType->subtype }}</td>
+                                <td>{{ $d->brand }}</td>
+                                <td>{{ $d->serial }}</td>
+                                <td>{{ $d->sto->subtype }}</td>
+                                <td>
+                                    @php
+                                        $pdf = $d->file ? asset($d->file) : null;
+                                    @endphp
+                                    <a href="javascript:void(0);" onclick="showPDF('{{ $pdf }}')"
+                                        class="btn btn-primary"><i class="bi bi-eye"></i></a>
+                                    <a href="{{ route('document.edit', ['id' => $d->id]) }}" class="btn btn-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
+                                        data-bs-toggle="modal" data-bs-target="#handleDelete"><i
+                                            class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -91,12 +97,12 @@
             <div class="modal-body">
                 <p>Are you sure you want to delete this item?</p>
                 <form id="deleteForm" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <input type="hidden" name="id" id="deleteId">
-                        <button type="submit" class="btn btn-primary">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </form>
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="id" id="deleteId">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </form>
             </div>
 
             <!-- <div class="modal-footer">
@@ -142,7 +148,7 @@
         document.getElementById('imageOverlay').style.display = "none";
     }
 
-    function viewPDF(id) {
-        window.open('/document/' + id, '_blank');
+    function showPDF(url) {
+        window.open(url, '_blank');
     }
 </script>

@@ -42,8 +42,8 @@
                     <label for="type_id" class="form-label">Tipe</label>
                     <select class="form-select" id="type_id" name="type_id">
                     <option value="">Pilih...</option>
-                          <?php foreach ($type as $type) : ?>
-                            <option value="<?= $type->id ?>" <?= old('type_id') == $type->id ? 'selected' : '' ?>><?= $type->subtype?></option>
+                          <?php foreach ($type as $t) : ?>
+                            <option value="<?= $t->id ?>" <?= old('type_id') == $t->id ? 'selected' : '' ?>><?= $t->subtype?></option>
                           <?php endforeach; ?>
                     </select>
                 </div>
