@@ -43,19 +43,19 @@
                                     <span class="submenu-title">Permission Document</span>
                                 </a>
                                 <a href="{{ url('/sto') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('sto') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-envelope me-3"></i>
+                                    <i class="bi bi-hdd-network me-3"></i>
                                     <span class="submenu-title">STO</span>
                                 </a>
                                 <a href="{{ url('/room') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('room') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-envelope me-3"></i>
+                                    <i class="bi bi-cpu me-3"></i>
                                     <span class="submenu-title">Room</span>
                                 </a>
                                 <a href="{{ url('/user') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('user') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-envelope me-3"></i>
+                                    <i class="bi bi-person me-3"></i>
                                     <span class="submenu-title">User</span>
                                 </a>
                                 <a href="{{ route('logout') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('logout') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Logout">
-                                    <i class="bi bi-envelope me-3"></i>
+                                <i class="bi bi-box-arrow-left me-3"></i>
                                     <span class="submenu-title">Logout</span>
                                 </a>
                             </div>
