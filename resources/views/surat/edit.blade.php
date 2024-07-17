@@ -30,14 +30,14 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Device Name</label>
                         <input type="text" class="form-control" id="name" name="name"
-                            value="{{ old('name') }}">
+                            value="{{ $surat->name }}">
                     </div>
                     <div class="mb-3">
                         <label for="type_id" class="form-label">Type</label>
                         <select class="form-select" id="type_id" name="type_id">
                             <option value="">Choose...</option>
                             @foreach ($type as $t)
-                                <option value="{{ $t->id }}" {{ old('type_id') == $t->id ? 'selected' : '' }}>
+                                <option value="{{ $t->id }}" {{ $t->id == $surat-> type_id ? 'selected' : '' }}>
                                     {{ $t->subtype }}</option>
                             @endforeach
                         </select>
@@ -45,19 +45,19 @@
                     <div class="mb-3">
                         <label for="brand" class="form-label">Brand</label>
                         <input type="text" class="form-control" id="brand" name="brand"
-                            value="{{ old('brand') }}">
+                            value="{{ $surat->brand }}">
                     </div>
                     <div class="mb-3">
                         <label for="serial" class="form-label">Serial Number</label>
                         <input type="text" class="form-control" id="serial" name="serial"
-                            value="{{ old('serial') }}">
+                            value="{{ $surat->serial }}">
                     </div>
                     <div class="mb-3">
                         <label for="first_sto_id" class="form-label">First STO</label>
                         <select class="form-select" id="first_sto_id" name="first_sto_id">
                             <option value="">Choose...</option>
                             @foreach ($sto as $s)
-                                <option value="{{ $s->id }}" {{ old('first_sto_id') == $s->id ? 'selected' : '' }}>
+                                <option value="{{ $s->id }}" {{ $s->id == $surat->first_sto_id ? 'selected' : '' }}>
                                     {{ $s->subtype }}</option>
                             @endforeach
                         </select>
@@ -67,7 +67,7 @@
                         <select class="form-select" id="last_sto_id" name="last_sto_id">
                             <option value="">Choose...</option>
                             @foreach ($sto as $s)
-                                <option value="{{ $s->id }}" {{ old('last_sto_id') == $s->id ? 'selected' : '' }}>
+                                <option value="{{ $s->id }}" {{ $s->id == $surat->last_sto_id ? 'selected' : '' }}>
                                     {{ $s->subtype }}</option>
                             @endforeach
                         </select>
@@ -91,16 +91,19 @@
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-select" id="status" name="status" onchange="toggleYearInput()">
-                            <option value="">Choose...</option>
-                            <option value="belum scrap" {{ old('status') == 'belum scrap' ? 'selected' : '' }}>Belum Scrap
-                            </option>
-                            <option value="scrap" {{ old('status') == 'scrap' ? 'selected' : '' }}>Scrap</option>
+                            @if($surat->status == "belum scrap")
+                                <option value="belum scrap">Belum Scrap</option>
+                                <option value="scrap">Scrap</option>
+                            @elseif($surat->status == "scrap")
+                                <option value="scrap">Scrap</option>
+                                <option value="belum scrap">Belum Scrap
+                            @endif
                         </select>
                     </div>
                     <div class="mb-3" id="yearInput" style="display: none;">
                         <label for="tahun" class="form-label">Tahun Scrap</label>
                         <input type="text" class="form-control" id="tahun" name="tahun"
-                            value="{{ old('tahun') }}">
+                            value="{{ $surat->additional }}">
                     </div>
                 </div>
                 </div>
@@ -115,4 +118,19 @@
                 <!-- END OF ACTION BUTTONS -->
         </form>
     </main>
+    <script>
+        function toggleYearInput() {
+            var status = document.getElementById('status').value;
+            var yearInput = document.getElementById('yearInput');
+            if (status === 'scrap') {
+                yearInput.style.display = 'block';
+            } else {
+                yearInput.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleYearInput();
+        });
+    </script>
 @endsection

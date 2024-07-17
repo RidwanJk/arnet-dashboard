@@ -122,9 +122,6 @@ class DocumentController extends Controller
 
         if ($request->hasFile('evidence')) {
             if ($document->evidence) {
-                $oldFilePath = str_replace(asset('storage/'), '', $document->evidence);
-                Storage::disk('public')->delete($oldFilePath);
-                Storage::disk('public')->delete(str_replace(asset('storage/'), '', $document->evidence));
                 Storage::disk('public')->delete($document->evidence);
             }
             $evidence = $request->file('evidence');
