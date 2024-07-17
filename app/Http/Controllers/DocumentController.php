@@ -122,6 +122,9 @@ class DocumentController extends Controller
 
         if ($request->hasFile('evidence')) {
             if ($document->evidence) {
+                $oldFilePath = str_replace(asset('storage/'), '', $document->evidence);
+                Storage::disk('public')->delete($oldFilePath);
+                Storage::disk('public')->delete(str_replace(asset('storage/'), '', $document->evidence));
                 Storage::disk('public')->delete($document->evidence);
             }
             $evidence = $request->file('evidence');
@@ -157,6 +160,8 @@ class DocumentController extends Controller
     {
         try {
             $document = Document::findOrFail($id);
+            Storage::disk('public')->delete(str_replace(asset('storage/'), '', $document->ba));
+            Storage::disk('public')->delete(str_replace(asset('storage/'), '', $document->evidence));
             $document->delete();
 
             return redirect()->route('document.index')->with('success', 'Document deleted successfully');
