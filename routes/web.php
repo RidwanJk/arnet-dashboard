@@ -6,6 +6,10 @@ use App\Http\Controllers\MapController;
 use App\Http\Controllers\surat;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfNotAuthenticated;
+use App\Http\Controllers\STOController;
+
+
+
 
 Route::get('/', function () {
     return redirect('/login');
@@ -38,3 +42,11 @@ Route::get('/document/show/{id}', [DocumentController::class, 'show']);
 Route::delete('/document/{id}', [DocumentController::class, 'destroy'])->name('deletedocument');
 Route::get('/document/{id}/edit', [DocumentController::class, 'edit'])->name('document.edit')->middleware(RedirectIfNotAuthenticated::class);
 Route::put('/document/{id}', [DocumentController::class, 'update'])->name('document.update');
+
+
+//STO
+Route::get('/sto', [STOController::class, 'index'])->name('sto')->middleware(RedirectIfNotAuthenticated::class);
+Route::resource('sto', STOController::class)->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/viewsto', [STOController::class, 'index'])->name('viewsto')->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/addsto', [STOController::class, 'create'])->name('addsto')->middleware(RedirectIfNotAuthenticated::class);
+Route::post('/storesto', [STOController::class, 'store'])->name('storesto');

@@ -39,7 +39,7 @@ class DocumentController extends Controller
         ]);
 
         if (!$request->file('file')) {
-            return redirect()->back()->with('fileError', 'Harap isi data semua data yang diperlukan')->withInput();
+            return redirect()->back()->with('fileError', 'Please Insert necessary field ')->withInput();
         }
 
         if ($validator->fails()) {
@@ -64,7 +64,7 @@ class DocumentController extends Controller
 
         Log::info('surat saved');
 
-        return redirect()->to('/document')->with('success', 'surat STO berhasil disimpan.');
+        return redirect()->to('/document')->with('success', 'Document saved succsessfully.');
     }
 
 
@@ -94,15 +94,15 @@ class DocumentController extends Controller
         $surat = Document::find($id);
 
         if (!$surat) {
-            return redirect()->back()->with('error', 'Data surat tidak ditemukan.');
+            return redirect()->back()->with('error', 'Document not found please try again.');
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'nullable|string|max:255',
-            'type_id' => 'nullable|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'serial' => 'nullable|string|max:255',
-            'sto_id' => 'nullable|string|max:255',
+            'name' => 'required|string|max:255',
+            'type_id' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'serial' => 'required|string|max:255',
+            'sto_id' => 'required|string|max:255',
             'file' => 'nullable|mimes:pdf|max:2048'
         ]);
 
@@ -128,7 +128,7 @@ class DocumentController extends Controller
         $surat->sto_id = $request->input('sto_id');
         $surat->save();
 
-        return redirect()->route('document.index')->with('success', 'Data surat berhasil di update.');
+        return redirect()->route('document.index')->with('success', 'Document updated succsessfully.');
     }
 
 

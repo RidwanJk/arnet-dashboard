@@ -1,7 +1,7 @@
 <!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Telkom | Edit Denah')
+@section('title', 'Telkom | Edit Layout')
 
 @section('content')
     @if ($errors->any())
@@ -29,10 +29,10 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="sto_id" class="form-label">
-                            Lokasi STO
+                            STO Location
                         </label>
                         <select class="form-select" id="sto_id" name="sto_id">
-                            <option value="">Pilih...</option>
+                            <option value="">Choose...</option>
                             <?php foreach ($sto as $sto) : ?>
                             <option value="<?= $sto->id ?>" <?= $denah->sto_id == $sto->id ? 'selected' : '' ?>>
                                 <?= $sto->subtype ?></option>
@@ -45,7 +45,7 @@
                             Tipe Ruangan
                         </label>
                         <select class="form-select" id="room_id" name="room_id">
-                            <option value="">Pilih...</option>
+                            <option value="">Choose...</option>
                             <?php foreach ($room as $room) : ?>
                             <option value="<?= $room->id ?>" <?= $denah->room_id == $room->id ? 'selected' : '' ?>>
                                 <?= $room->subtype ?></option>

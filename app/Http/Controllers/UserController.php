@@ -48,7 +48,7 @@ class UserController extends Controller
             $request->session()->put('user_id', $user->id);
             return redirect()->route('denah.index');
         } else {
-            return redirect()->route('login')->with('error', 'Username atau password salah.');
+            return redirect()->route('login')->with('error', 'Username or password incorrect.');
         }
     }
 

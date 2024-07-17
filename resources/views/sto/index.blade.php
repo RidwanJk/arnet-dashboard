@@ -29,8 +29,8 @@
             <div class="card-body">
                 <h6 class="card-title text-uppercase">Documents</h6>
                 <div>
-                    <a href="{{ route('adddocument') }}" class="btn btn-primary mb-4 mt-3">
-                        <i class="bi bi-plus me-3"></i>Create New Document
+                    <a href="{{ route('addsto') }}" class="btn btn-primary mb-4 mt-3">
+                        <i class="bi bi-plus me-3"></i>Create New STO Location
                     </a>
                 </div>
                 <div class="table-responsive">
@@ -38,37 +38,24 @@
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Device Name</th>
-                                <th>Type</th>
-                                <th>Brand</th>
-                                <th>Serial Number</th>
-                                <th>STO</th>
+                                <th>Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($surat as $d)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $d->name }}</td>
-                                <td>{{ $d->deviceType->subtype }}</td>
-                                <td>{{ $d->brand }}</td>
-                                <td>{{ $d->serial }}</td>
-                                <td>{{ $d->sto->subtype }}</td>
-                                <td>
-                                    @php
-                                        $pdf = $d->file ? asset($d->file) : null;
-                                    @endphp
-                                    <a href="javascript:void(0);" onclick="showPDF('{{ $pdf }}')"
-                                        class="btn btn-primary"><i class="bi bi-eye"></i></a>
-                                    <a href="{{ route('document.edit', ['id' => $d->id]) }}" class="btn btn-warning">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
-                                        data-bs-toggle="modal" data-bs-target="#handleDelete"><i
-                                            class="bi bi-trash"></i></button>
-                                </td>
-                            </tr>
+                            @foreach ($stos as $sto)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $sto->subtype }}</td>
+                                    <td>
+                                        <a href="{{ route('sto.edit', ['id' => $sto->id]) }}" class="btn btn-warning">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button title="Delete" class="btn btn-danger" data-id="{{ $sto->id }}"
+                                            data-bs-toggle="modal" data-bs-target="#handleDelete"><i
+                                                class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

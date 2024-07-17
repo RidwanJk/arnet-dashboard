@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('sto_id');
             $table->unsignedBigInteger('room_id');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->string('converted_image')->nullable();
             $table->timestamps();
 

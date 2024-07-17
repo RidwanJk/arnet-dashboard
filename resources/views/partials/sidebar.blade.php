@@ -35,22 +35,22 @@
                             <div class="list-group list-group-flush">
                                 <a href="{{ url('/denah') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('denah') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Dashboard">
                                     <i class="bi bi-diagram-3 me-3"></i>
-                                    <span class="submenu-title">Denah STO</span>
+                                    <span class="submenu-title">STO Layout</span>
                                 </a>
                                 <!-- Add More Menus -->
                                 <a href="{{ url('/document') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-envelope me-3"></i>
-                                    <span class="submenu-title">Surat Perijinan</span>
+                                    <span class="submenu-title">Permission Document</span>
                                 </a>
-                                <a href="{{ url('/document') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                <a href="{{ url('/sto') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('sto') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-envelope me-3"></i>
                                     <span class="submenu-title">STO</span>
                                 </a>
-                                <a href="{{ url('/document') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                <a href="{{ url('/room') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('room') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-envelope me-3"></i>
-                                    <span class="submenu-title">Ruangan</span>
+                                    <span class="submenu-title">Room</span>
                                 </a>
-                                <a href="{{ url('/document') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                <a href="{{ url('/user') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('user') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-envelope me-3"></i>
                                     <span class="submenu-title">User</span>
                                 </a>

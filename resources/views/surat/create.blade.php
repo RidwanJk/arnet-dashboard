@@ -29,27 +29,22 @@
         <div class="card mb-3">
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Nama Perangkat</label>
+                    <label for="name" class="form-label">Device Name</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                 </div>
-
                 <div class="mb-3">
-                    <label for="device" class="form-label">Device</label>
-                    <input type="text" class="form-control" id="device" name="device" value="{{ old('device') }}">
-                </div>
-
-                <div class="mb-3">
-                    <label for="type_id" class="form-label">Tipe</label>
+                    <label for="type_id" class="form-label">Type</label>
                     <select class="form-select" id="type_id" name="type_id">
-                    <option value="">Pilih...</option>
-                          <?php foreach ($type as $t) : ?>
-                            <option value="<?= $t->id ?>" <?= old('type_id') == $t->id ? 'selected' : '' ?>><?= $t->subtype?></option>
-                          <?php endforeach; ?>
+                        <option value="">Choose...</option>
+                        <?php foreach ($type as $t): ?>
+                        <option value="<?= $t->id ?>" <?= old('type_id') == $t->id ? 'selected' : '' ?>><?= $t->subtype?>
+                        </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="mb-3">
-                    <label for="brand" class="form-label">Merek</label>
+                    <label for="brand" class="form-label">Brand</label>
                     <input type="text" class="form-control" id="brand" name="brand" value="{{ old('brand') }}">
                 </div>
 
@@ -62,16 +57,20 @@
                 <div class="mb-3">
                     <label for="sto_id" class="form-label">STO</label>
                     <select class="form-select" id="sto_id" name="sto_id">
-                     <option value="">Pilih...</option>
-                          <?php foreach ($sto as $sto) : ?>
-                            <option value="<?= $sto->id ?>" <?= old('sto_id') == $sto->id ? 'selected' : '' ?>><?= $sto->subtype?></option>
-                          <?php endforeach; ?>
+                        <option value="">Choose...</option>
+                        <?php foreach ($sto as $sto): ?>
+                        <option value="<?= $sto->id ?>" <?= old('sto_id') == $sto->id ? 'selected' : '' ?>>
+                            <?= $sto->subtype?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
-                
+
                 <div class="mb-3">
                     <label for="file" class="form-label">File</label>
                     <input class="form-control" type="file" id="file" name="file">
+                    <div class="itali">
+                        <span>File type must be .pdf</span>
+                    </div>
                 </div>
             </div>
 

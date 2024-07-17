@@ -37,12 +37,15 @@ class MapController extends Controller
         ]);
 
         $validator->after(function ($validator) use ($request) {
-            if (!$request->file('file')) {
-                $validator->errors()->add('fileError', 'file is required');
-            } elseif ($request->file('file')->getClientOriginalExtension() !== 'vsd') {
-                $validator->errors()->add('file', 'File must be type of .vsd');
+            if ($request->file('file')) {
+                $extension = $request->file('file')->getClientOriginalExtension();
+                $allowedExtensions = ['vsd', 'png', 'jpg', 'jpeg'];
+                if (!in_array($extension, $allowedExtensions)) {
+                    $validator->errors()->add('file', 'File must be of type .vsd, .png, .jpg, or .jpeg');
+                }
             }
         });
+
 
 
         if ($validator->fails()) {
@@ -50,23 +53,32 @@ class MapController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+
         Log::info('File upload detected');
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
-        $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
-        $convertedImagePath = $this->convertVsdToImage($filePath);
-        Log::info('Converted image path: ' . $convertedImagePath);
+        if ($request->file('file')->getClientOriginalExtension() == 'vsd') {
+            $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+            $convertedImagePath = $this->convertVsdToImage($filePath);
+            Log::info('Converted image path: ' . $convertedImagePath);
+        } else {
+            $convertedImagePath = $file->storeAs('converted_images', $fileName, 'public');
+        }
 
         $denah = new Map();
         $denah->sto_id = $request->input('sto_id');
         $denah->room_id = $request->input('room_id');
-        $denah->file = asset('storage/' . $filePath);
-        $denah->converted_image = asset($convertedImagePath);
+        if ($request->file('file')->getClientOriginalExtension() == 'vsd') {
+            $denah->file = asset('storage/' . $filePath);
+            $denah->converted_image = asset($convertedImagePath);
+        } else {
+            $denah->converted_image = asset('storage/' . $convertedImagePath);
+        }
         $denah->save();
 
         Log::info('Denah saved');
 
-        return redirect()->to('/denah')->with('success', 'Denah STO has been saved.');
+        return redirect()->to('/denah')->with('success', 'STO Layout has been saved.');
     }
 
 
@@ -112,20 +124,24 @@ class MapController extends Controller
         $denah = Map::find($id);
 
         if (!$denah) {
-            return redirect()->back()->with('unusual', 'Ada error mohon ulangi lagi');
+            return redirect()->back()->with('unusual', 'An Error Occured, Please Try Again');
         }
 
         $validator = Validator::make($request->all(), [
             'sto_id' => 'required|integer|exists:dropdowns,id',
             'room_id' => 'required|integer|exists:dropdowns,id',
-            'file' => 'nullable|file|max:2048'
+            'file' => 'nullable|file'
         ]);
 
-        if ($request->file('file') && $request->file('file')->getClientOriginalExtension() !== 'vsd') {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('file', 'File must be of .vsd');
-            });
-        }
+        $validator->after(function ($validator) use ($request) {
+            if ($request->file('file')) {
+                $extension = $request->file('file')->getClientOriginalExtension();
+                $allowedExtensions = ['vsd', 'png', 'jpg', 'jpeg'];
+                if (!in_array($extension, $allowedExtensions)) {
+                    $validator->errors()->add('file', 'File must be of type .vsd, .png, .jpg, or .jpeg');
+                }
+            }
+        });
 
         if ($validator->fails()) {
             Log::info('Validation failed');
@@ -136,16 +152,25 @@ class MapController extends Controller
             if ($denah->file) {
                 $oldFilePath = str_replace(asset('storage/'), '', $denah->file);
                 Storage::disk('public')->delete($oldFilePath);
+                Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
+            } else if ($denah->converted_image) {
+                Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
             }
 
             Log::info('File upload detected');
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
-            $convertedImagePath = $this->convertVsdToImage($filePath);
-            Log::info('Converted image path: ' . $convertedImagePath);
-            $denah->file = asset('storage/' . $filePath);
-            $denah->converted_image = asset($convertedImagePath);
+            if ($request->file('file')->getClientOriginalExtension() == 'vsd') {
+                $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+                $convertedImagePath = $this->convertVsdToImage($filePath);
+                Log::info('Converted image path: ' . $convertedImagePath);
+                $denah->file = asset('storage/' . $filePath);
+                $denah->converted_image = asset($convertedImagePath);
+            } else {
+                $convertedImagePath = $file->storeAs('converted_images', $fileName, 'public');
+                $denah->converted_image = asset('storage/' . $convertedImagePath);
+            }
+
         }
 
         $denah->sto_id = $request->input('sto_id');
@@ -153,7 +178,7 @@ class MapController extends Controller
         $denah->save();
 
         Log::info('Denah updated');
-        return redirect()->route('denah.index')->with('success', 'Data denah berhasil di update.');
+        return redirect()->route('denah.index')->with('success', 'Layout data saved successfully.');
     }
 
     public function destroy($id)
@@ -161,8 +186,17 @@ class MapController extends Controller
         // Find the item by ID
         $denah = Map::find($id);
 
+
         if (!$denah) {
             return redirect()->route('viewdenah')->with('errord', 'Item not found.');
+        }
+
+        if ($denah->file) {
+            $oldFilePath = str_replace(asset('storage/'), '', $denah->file);
+            Storage::disk('public')->delete($oldFilePath);
+            Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
+        } else if ($denah->converted_image) {
+            Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
         }
 
         // Delete the item

@@ -28,15 +28,15 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nama Perangkat</label>
+                        <label for="name" class="form-label">Device Name</label>
                         <input type="text" class="form-control" id="name" name="name"
                             value="{{ $surat->name }}">
                     </div>
 
                     <div class="mb-3">
-                        <label for="type_id" class="form-label">Tipe</label>
+                        <label for="type_id" class="form-label">Type</label>
                         <select class="form-select" id="type_id" name="type_id">
-                            <option value="">Pilih...</option>
+                            <option value="">Choose...</option>
                             @foreach ($type as $item)
                                 <option value="{{ $item->id }}" {{ $surat->type_id == $item->id ? 'selected' : '' }}>
                                     {{ $item->subtype }}</option>
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="brand" class="form-label">Merek</label>
+                        <label for="brand" class="form-label">Brand</label>
                         <input type="text" class="form-control" id="brand" name="brand"
                             value="{{ $surat->brand }}">
                     </div>
@@ -59,7 +59,7 @@
                     <div class="mb-3">
                         <label for="sto_id" class="form-label">STO</label>
                         <select class="form-select" id="sto_id" name="sto_id">
-                            <option value="">Pilih...</option>
+                            <option value="">Choose...</option>
                             @foreach ($sto as $item)
                                 <option value="{{ $item->id }}" {{ $surat->sto_id == $item->id ? 'selected' : '' }}>
                                     {{ $item->subtype }}</option>

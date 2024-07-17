@@ -1,7 +1,7 @@
 <!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Telkom | Tambah Denah')
+@section('title', 'Telkom | Create New Layout')
 
 @section('content')
 
@@ -30,10 +30,10 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="sto_id" class="form-label">
-                          Lokasi STO
+                          STO Location
                         </label>
                         <select class="form-select" id="sto_id" name="sto_id">
-                        <option value="">Pilih...</option>
+                        <option value="">Choose...</option>
                           <?php foreach ($sto as $sto) : ?>
                             <option value="<?= $sto->id ?>" <?= old('sto_id') == $sto->id ? 'selected' : '' ?>><?= $sto->subtype?></option>
                           <?php endforeach; ?>
@@ -41,10 +41,10 @@
                       </div>
                       <div class="mb-3">
                         <label for="room_id" class="form-label">
-                          Tipe Ruangan
+                          Room Type
                         </label>
                         <select class="form-select" id="room_id" name="room_id">
-                        <option value="">Pilih...</option>
+                        <option value="">Choose...</option>
                           <?php foreach ($room as $room) : ?>
                             <option value="<?= $room->id ?>" <?= old('room_id') == $room->id ? 'selected' : '' ?>><?= $room->subtype?></option>
                           <?php endforeach; ?>
@@ -53,6 +53,10 @@
                     <div class="mb-3">
                         <label for="file" class="form-label">File</label>
                         <input class="form-control" type="file" id="file" name="file">
+                        <div class="itali">
+                            <span>File type must be .vsd, png, jpg, jpeg</span>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
