@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Document;
 use App\Models\Dropdown;
 use App\Models\User;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -14,8 +15,8 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $document = Document::all();
-        return view('surat/index', ['surat' => $document]);
+        $documents = Document::all();
+        return view('surat.index', ['surat' => $documents]);
     }
 
     public function create()
@@ -23,7 +24,7 @@ class DocumentController extends Controller
         $user = User::find(session('user_id'));
         $sto = Dropdown::where('type', 'sto')->get();
         $type = Dropdown::where('type', 'room')->get();
-        return view('surat/create', ['sto' => $sto, 'type' => $type]);
+        return view('surat.create', ['sto' => $sto, 'type' => $type]);
     }
 
     public function store(Request $request)
@@ -31,16 +32,16 @@ class DocumentController extends Controller
         Log::info('Store method called');
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'type_id' => 'required|string|max:255',
+            'type_id' => 'required|integer',
             'brand' => 'required|string|max:255',
             'serial' => 'required|string|max:255',
-            'sto_id' => 'required|string|max:255',
-            'file' => 'required|mimes:pdf|max:2048'
+            'first_sto_id' => 'required|string:max:255',
+            'last_sto_id' => 'required|string|max:255',
+            'evidence' => 'required|mimes:jpeg,png|max:2048',
+            'berita_acara' => 'required|mimes:pdf,docx|max:2048',
+            'status' => 'required|string|in:belum scrap,scrap',
+            'tahun' => 'nullable|required_if:status,scrap|string|max:4'
         ]);
-
-        if (!$request->file('file')) {
-            return redirect()->back()->with('fileError', 'Please Insert necessary field ')->withInput();
-        }
 
         if ($validator->fails()) {
             Log::info('Validation failed');
@@ -48,26 +49,31 @@ class DocumentController extends Controller
         }
 
         Log::info('File upload detected');
-        $file = $request->file('file');
-        $fileName = $file->getClientOriginalName();
-        $filePath = $file->storeAs('uploads/surat', $fileName, 'public');
+        $evidence = $request->file('evidence');
+        $evidenceName = time() . '_' . $evidence->getClientOriginalName();
+        $evidencePath = $evidence->storeAs('uploads/evidence', $evidenceName, 'public');
 
+        $beritaAcara = $request->file('berita_acara');
+        $beritaAcaraName = time() . '_' . $beritaAcara->getClientOriginalName();
+        $beritaAcaraPath = $beritaAcara->storeAs('uploads/berita_acara', $beritaAcaraName, 'public');
 
-        $surat = new Document();
-        $surat->name = $request->input('name');
-        $surat->type_id = $request->input('type_id');
-        $surat->brand = $request->input('brand');
-        $surat->serial = $request->input('serial');
-        $surat->sto_id = $request->input('sto_id');
-        $surat->file = asset('storage/' . $filePath);
-        $surat->save();
+        $document = new Document();
+        $document->name = $request->input('name');
+        $document->type_id = $request->input('type_id');
+        $document->brand = $request->input('brand');
+        $document->serial = $request->input('serial');
+        $document->first_sto_id = $request->input('first_sto_id');
+        $document->last_sto_id = $request->input('last_sto_id');
+        $document->evidence = $evidencePath;
+        $document->ba = $beritaAcaraPath;
+        $document->status = $request->input('status');
+        $document->additional = $request->input('tahun');
+        $document->save();
 
-        Log::info('surat saved');
+        Log::info('Document saved');
 
-        return redirect()->to('/document')->with('success', 'Document saved succsessfully.');
+        return redirect()->route('document.index')->with('success', 'Document saved successfully.');
     }
-
-
 
     // public function show($id)
     // {
@@ -83,54 +89,69 @@ class DocumentController extends Controller
 
     public function edit($id)
     {
-        $surat = Document::find($id);
+        $document = Document::find($id);
         $sto = Dropdown::where('type', 'sto')->get();
         $type = Dropdown::where('type', 'room')->get();
-        return view('surat.edit', ['surat' => $surat, 'sto' => $sto, 'type' => $type]);
+        return view('surat.edit', ['surat' => $document, 'sto' => $sto, 'type' => $type]);
     }
 
     public function update(Request $request, $id)
     {
-        $surat = Document::find($id);
+        $document = Document::find($id);
 
-        if (!$surat) {
+        if (!$document) {
             return redirect()->back()->with('error', 'Document not found please try again.');
         }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'type_id' => 'required|string|max:255',
+            'type_id' => 'required|integer',
             'brand' => 'required|string|max:255',
             'serial' => 'required|string|max:255',
-            'sto_id' => 'required|string|max:255',
-            'file' => 'nullable|mimes:pdf|max:2048'
+            'first_sto_id' => 'required|integer',
+            'last_sto_id' => 'required|integer',
+            'evidence' => 'nullable|mimes:jpeg,png|max:2048',
+            'berita_acara' => 'nullable|mimes:pdf,docx|max:2048',
+            'status' => 'required|string|in:belum scrap,scrap',
+            'tahun' => 'nullable|required_if:status,scrap|string|max:4'
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if ($request->file('file')) {
-            if ($surat->file) {
-                Storage::disk('public')->delete($surat->file);
+        if ($request->hasFile('evidence')) {
+            if ($document->evidence) {
+                Storage::disk('public')->delete($document->evidence);
             }
-            $file = $request->file('file');
-            $filedata = file_get_contents($file);
-            $fileName = $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads/surat', $fileName, 'public');
-            $surat->file = $filedata;
+            $evidence = $request->file('evidence');
+            $evidenceName = time() . '_' . $evidence->getClientOriginalName();
+            $evidencePath = $evidence->storeAs('uploads/evidence', $evidenceName, 'public');
+            $document->evidence = $evidencePath;
         }
 
-        $surat->name = $request->input('name');
-        $surat->type_id = $request->input('type_id');
-        $surat->brand = $request->input('brand');
-        $surat->serial = $request->input('serial');
-        $surat->sto_id = $request->input('sto_id');
-        $surat->save();
+        if ($request->hasFile('berita_acara')) {
+            if ($document->ba) {
+                Storage::disk('public')->delete($document->ba);
+            }
+            $beritaAcara = $request->file('berita_acara');
+            $beritaAcaraName = time() . '_' . $beritaAcara->getClientOriginalName();
+            $beritaAcaraPath = $beritaAcara->storeAs('uploads/berita_acara', $beritaAcaraName, 'public');
+            $document->ba = $beritaAcaraPath;
+        }
 
-        return redirect()->route('document.index')->with('success', 'Document updated succsessfully.');
+        $document->name = $request->input('name');
+        $document->type_id = $request->input('type_id');
+        $document->brand = $request->input('brand');
+        $document->serial = $request->input('serial');
+        $document->first_sto_id = $request->input('first_sto_id');
+        $document->last_sto_id = $request->input('last_sto_id');
+        $document->status = $request->input('status');
+        $document->additional = $request->input('tahun');
+        $document->save();
+
+        return redirect()->route('document.index')->with('success', 'Document updated successfully.');
     }
-
 
     public function destroy($id)
     {

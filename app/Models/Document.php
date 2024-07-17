@@ -28,11 +28,11 @@ class Document extends Model
 
     public function stoFirst()
     {
-        return $this->belongsTo(Dropdown::class, 'sto_first_id');
+        return $this->belongsTo(Dropdown::class, 'first_sto_id');
     }
 
     public function stoLast()
     {
-        return $this->belongsTo(Dropdown::class, 'sto_last_id');
+        return $this->belongsTo(Dropdown::class, 'last_sto_id');
     }
 }

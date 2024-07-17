@@ -56,42 +56,41 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $d->name }}</td>
-                                        <td>{{ $d->deviceType->subtype }}</td>
+                                        <td>{{ optional($d->deviceType)->subtype }}</td>
                                         <td>{{ $d->brand }}</td>
                                         <td>{{ $d->serial }}</td>
-                                        <td>{{ $d->stoFirst->subtype }}</td>
-                                        <td>{{ $d->stoLast->subtype }}</td>
+                                        <td>{{ optional($d->stoFirst)->subtype }}</td>
+                                        <td>{{ optional($d->stoLast)->subtype }}</td>
                                         <td>
                                             @php
-                                                $evidence = $d->evidence ? asset($d->evidence) : null;
+                                                $evidence = $d->evidence ? asset('storage/' . $d->evidence) : null;
                                             @endphp
                                             @if ($evidence)
                                                 <a href="javascript:void(0);" onclick="showImage('{{ $evidence }}')">
-                                                    <img src="{{ $evidence }}" alt="{{ $d->stoFirst->subtype }}"
+                                                    <img src="{{ $evidence }}" alt="{{ $d->name }}"
                                                         class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                                 </a>
                                             @else
-                                                <img src="public\img\403-error-forbidden-animate.svg"
+                                                <img src="{{ asset('img/no-image-available.png') }}"
                                                     alt="No image available" class="img-fluid"
                                                     style="max-width: 100px; max-height: 100px;">
                                             @endif
                                         </td>
                                         <td>
                                             @php
-                                                $pdf = $d->ba ? asset($d->ba) : null;
+                                                $pdf = $d->ba ? asset('storage/' . $d->ba) : null;
                                             @endphp
-                                            <a href="javascript:void(0);" onclick="showPDF('{{ $pdf }}')"
-                                                class="btn btn-primary"><i class="bi bi-eye"></i></a>
+                                            @if ($pdf)
+                                                <a href="javascript:void(0);" onclick="showPDF('{{ $pdf }}')"
+                                                    class="btn btn-primary"><i class="bi bi-eye"></i></a>
+                                            @else
+                                                <button class="btn btn-secondary" disabled><i
+                                                        class="bi bi-eye-slash"></i></button>
+                                            @endif
                                         </td>
                                         <td>{{ $d->status }}</td>
-                                        <td>{{ $d->additional }}</td>
-                                        
+                                        <td>{{ $d->status === 'scrap' ? $d->additional : '-' }}</td>
                                         <td>
-                                            @php
-                                                $pdf = $d->evidence ? asset($d->file) : null;
-                                            @endphp
-                                            <a href="javascript:void(0);" onclick="showPDF('{{ $pdf }}')"
-                                                class="btn btn-primary"><i class="bi bi-eye"></i></a>
                                             <a href="{{ route('document.edit', ['id' => $d->id]) }}"
                                                 class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
@@ -136,11 +135,6 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </form>
                 </div>
-
-                <!-- <div class="modal-footer">
-                        <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div> -->
             </div>
         </div>
     </div>
@@ -149,11 +143,6 @@
 @endsection
 
 <script>
-    // const handleDelete = (id) => {
-    //     const form = document.getElementById('deleteForm');
-    //     form.action = `/document/${id}`;
-    // };
-
     document.addEventListener('DOMContentLoaded', function() {
         var handleDelete = document.getElementById('handleDelete');
         handleDelete.addEventListener('show.bs.modal', function(event) {
