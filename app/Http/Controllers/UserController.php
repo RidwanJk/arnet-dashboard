@@ -68,9 +68,27 @@ class UserController extends Controller
         ]);
     }
 
+    public function createView()
+    {
+        return view('user/create');
+    }
+
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required|string|max:12|unique:users',
+            'password' => 'required|string',
+            'role' => 'required',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+        $user->save();
+        return redirect()->to('viewuser')->with('success', 'User created successfully');
     }
 
     /**
@@ -78,15 +96,18 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $user = User::all();
+        return view('user/index', ['users' => $user]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($id)
     {
         //
+        $user = User::find($id);
+        return view('user/edit', ['user' => $user]);
     }
 
     /**
@@ -94,7 +115,21 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'name' => 'required|string|max:12',
+            'password' => 'nullable|string',
+            'role' => 'required|string',
+        ]);
+
+        $user = User::find($user->id);        
+        $user->name = $request->name;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->role = $request->role;
+        $user->save();
+        return redirect()->to('viewuser')->with('success', 'User updated successfully');
     }
 
     /**
@@ -102,14 +137,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $document = Map::find($id);
-
-        if (!$document) {
-            return redirect()->route('viewdocument')->with('error', 'Item not found.');
-        }
-
-        $document->delete();
-
-        return redirect()->route('viewdocument')->with('success', 'Item deleted successfully.');
+        
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->to('viewuser')->with('success', 'User deleted successfully');
     }
 }

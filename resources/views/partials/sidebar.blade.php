@@ -50,7 +50,7 @@
                                     <i class="bi bi-cpu me-3"></i>
                                     <span class="submenu-title">Room</span>
                                 </a>
-                                <a href="{{ url('/user') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('user') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                <a href="{{ url('/viewuser') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('viewuser') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-person me-3"></i>
                                     <span class="submenu-title">User</span>
                                 </a>

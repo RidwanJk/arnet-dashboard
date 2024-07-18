@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Telkom | STO\'s Document')
+@section('title', 'Telkom | Document')
 
 @section('content')
 

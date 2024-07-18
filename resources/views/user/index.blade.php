@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Telkom | STO')
+@section('title', 'Telkom | Users')
 
 @section('content')
 
@@ -29,8 +29,8 @@
             <div class="card-body">
                 <h6 class="card-title text-uppercase">Documents</h6>
                 <div>
-                    <a href="{{ route('addsto') }}" class="btn btn-primary mb-4 mt-3">
-                        <i class="bi bi-plus me-3"></i>Create New STO Location
+                    <a href="{{ route('adduser') }}" class="btn btn-primary mb-4 mt-3">
+                        <i class="bi bi-plus me-3"></i>Create New User
                     </a>
                 </div>
                 <div class="table-responsive">
@@ -38,20 +38,27 @@
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Room Type</th>
+                                <th>User Name</th>
+                                <th>Role</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($stos as $sto)
+                            @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $sto->subtype }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    @php if ($user->role == 0) {
+                                    $user->role = 'Admin';
+                                    } else {
+                                    $user->role = 'User';
+                                    } @endphp
+                                    <td>{{$user->role}}</td>
                                     <td>
-                                        <a href="{{ route('sto.edit', ['id' => $sto->id]) }}" class="btn btn-warning">
+                                        <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="btn btn-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button title="Delete" class="btn btn-danger" data-id="{{ $sto->id }}"
+                                        <button title="Delete" class="btn btn-danger" data-id="{{ $user->id }}"
                                             data-bs-toggle="modal" data-bs-target="#handleDelete"><i
                                                 class="bi bi-trash"></i></button>
                                     </td>
@@ -118,7 +125,7 @@
             var deleteForm = document.getElementById('deleteForm');
             var deleteIdInput = document.getElementById('deleteId');
 
-            var action = "{{ route('deletesto', ':id') }}";
+            var action = "{{ route('user.destroy', ':id') }}";
             action = action.replace(':id', id);
 
             deleteForm.action = action;

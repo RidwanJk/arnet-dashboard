@@ -1,7 +1,7 @@
 <!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Telkom | Add STO')
+@section('title', 'Telkom | Add New Room')
 
 @section('content')
 
@@ -24,7 +24,7 @@
 
 <main class="bd-main p-3 bg-light">
 
-    <form action="/storesto" method="post" enctype="multipart/form-data">
+    <form action="/storeroom" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card mb-3">
             <div class="card-body">
@@ -39,7 +39,7 @@
                 <div class="card-body">
                     <button type="submit" class="btn btn-primary btn-lg">Save</button>
                     <button type="button" class="btn btn-secondary btn-lg"
-                        onclick="window.location='{{ route('viewsto') }}'">Cancel</button>
+                        onclick="window.location='{{ route('viewroom') }}'">Cancel</button>
                 </div>
             </div>
             <!-- END OF ACTION BUTTONS -->

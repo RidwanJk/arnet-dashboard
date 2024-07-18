@@ -158,7 +158,7 @@ class UsersSeeder extends Seeder
                 foreach ($dropdown['subtype'] as $subtype) {
                     Dropdown::create([
                         'type' => $type,
-                        'subtype' => $subtype,
+                        'subtype' => ucfirst($subtype),
                     ]);
                 }
             }

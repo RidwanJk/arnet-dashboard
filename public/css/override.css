@@ -71,3 +71,9 @@ aside.bd-sidebar .sidebar-body .list-group-item {
     font-size: 1.5ch;
     font-weight: bold;
 }
+
+.bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: #000000 !important;
+}
+

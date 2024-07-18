@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Telkom | STO')
+@section('title', 'Telkom | Room Type')
 
 @section('content')
 
@@ -29,8 +29,8 @@
             <div class="card-body">
                 <h6 class="card-title text-uppercase">Documents</h6>
                 <div>
-                    <a href="{{ route('addsto') }}" class="btn btn-primary mb-4 mt-3">
-                        <i class="bi bi-plus me-3"></i>Create New STO Location
+                    <a href="{{ route('addroom') }}" class="btn btn-primary mb-4 mt-3">
+                        <i class="bi bi-plus me-3"></i>Create New Room Type
                     </a>
                 </div>
                 <div class="table-responsive">
@@ -38,20 +38,20 @@
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Room Type</th>
+                                <th>Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($stos as $sto)
+                            @foreach ($rooms as $room)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $sto->subtype }}</td>
+                                    <td>{{ $room->subtype }}</td>
                                     <td>
-                                        <a href="{{ route('sto.edit', ['id' => $sto->id]) }}" class="btn btn-warning">
+                                        <a href="{{ route('room.edit', ['id' => $room->id]) }}" class="btn btn-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button title="Delete" class="btn btn-danger" data-id="{{ $sto->id }}"
+                                        <button title="Delete" class="btn btn-danger" data-id="{{ $room->id }}"
                                             data-bs-toggle="modal" data-bs-target="#handleDelete"><i
                                                 class="bi bi-trash"></i></button>
                                     </td>
@@ -118,7 +118,7 @@
             var deleteForm = document.getElementById('deleteForm');
             var deleteIdInput = document.getElementById('deleteId');
 
-            var action = "{{ route('deletesto', ':id') }}";
+            var action = "{{ route('deleteroom', ':id') }}";
             action = action.replace(':id', id);
 
             deleteForm.action = action;

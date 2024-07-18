@@ -1,7 +1,7 @@
 <!-- resources/views/surat/edit.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Telkom | Edit Surat')
+@section('title', 'Telkom | Edit Document')
 
 @section('content')
     @if ($errors->any())
