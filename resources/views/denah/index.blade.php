@@ -23,7 +23,6 @@ if (session()->has('success')):?>
 </div>
 <?php endif; ?>
 
-
 <!-- TABLE -->
 <div class="row">
     <div class="col-12">
@@ -36,7 +35,7 @@ if (session()->has('success')):?>
                     </a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered w-100" id="example">
+                    <table class="table table-striped table-bordered w-100" id="table">
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
@@ -73,8 +72,8 @@ if (session()->has('success')):?>
                                                                 <td><a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i
                                                                             class="bi bi-download"></i></a></td>
                                                             @else
-                                                                <td><a href="{{ asset($d->converted_image) }}" title="Download" class="btn btn-primary" download><i
-                                                                            class="bi bi-download"></i></a></td>
+                                                                <td><a href="{{ asset($d->converted_image) }}" title="Download" class="btn btn-primary"
+                                                                        download><i class="bi bi-download"></i></a></td>
                                                             @endif
                                                             <td class="text-center">
                                                                 <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">

@@ -34,7 +34,7 @@
                     </a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered w-100" id="example">
+                    <table class="table table-striped table-bordered w-100" id="table">
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
