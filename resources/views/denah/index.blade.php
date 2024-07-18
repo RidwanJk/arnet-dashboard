@@ -23,6 +23,7 @@ if (session()->has('success')):?>
 </div>
 <?php endif; ?>
 
+
 <!-- TABLE -->
 <div class="row">
     <div class="col-12">

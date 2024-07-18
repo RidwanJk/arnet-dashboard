@@ -13,7 +13,7 @@ class STOController extends Controller
 
         $sto = Dropdown::where('type', 'sto')->get();
         // sort bye name
-        $sto = $sto->sortBy('subtype');        
+        $sto = $sto->sortBy('subtype');
         return view('sto/index', ['stos' => $sto]);
     }
 
