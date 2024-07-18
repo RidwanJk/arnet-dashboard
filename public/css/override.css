@@ -77,3 +77,7 @@ aside.bd-sidebar .sidebar-body .list-group-item {
     background-color: #000000 !important;
 }
 
+.pagination{
+    --bs-pagination-color: #7c1f1a !important;
+    --bs-pagination-active-bg: #7c1f1a !important;
+}
