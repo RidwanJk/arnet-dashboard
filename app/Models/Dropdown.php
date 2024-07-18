@@ -24,9 +24,14 @@ class Dropdown extends Model
         return $this->hasMany(Map::class, 'room_id');
     }
 
-    public function stoDocs()
+    public function stoFirstDocs()
     {
-        return $this->hasMany(Document::class, 'sto_id');
+        return $this->hasMany(Document::class, 'sto_first_id');
+    }
+
+    public function stoLastDocs()
+    {
+        return $this->hasMany(Document::class, 'sto_last_id');
     }
 
     public function typeDocs()

@@ -17,11 +17,16 @@ return new class extends Migration
             $table->unsignedBigInteger('type_id');
             $table->string('brand')->nullable();
             $table->string('serial');
-            $table->unsignedBigInteger('sto_id');
-            $table->binary('file');
+            $table->unsignedBigInteger('first_sto_id');
+            $table->unsignedBigInteger('last_sto_id');
+            $table->string('evidence');
+            $table->string('ba');
+            $table->string('status');
+            $table->string('additional')->nullable();
             $table->timestamps();
 
-            $table->foreign('sto_id')->references('id')->on('dropdowns')->onDelete('cascade');
+            $table->foreign('first_sto_id')->references('id')->on('dropdowns')->onDelete('cascade');
+            $table->foreign('last_sto_id')->references('id')->on('dropdowns')->onDelete('cascade');
             $table->foreign('type_id')->references('id')->on('dropdowns')->onDelete('cascade');
         });
     }
@@ -31,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('documents');
     }
 };

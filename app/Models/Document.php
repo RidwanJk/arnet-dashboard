@@ -13,8 +13,12 @@ class Document extends Model
         'type_id',
         'brand',
         'serial',
-        'sto_id',
-        'file',
+        'first_sto_id',
+        'last_sto_id',
+        'evidence',
+        'ba',
+        'status',
+        'additional',
     ];
 
     public function deviceType()
@@ -22,8 +26,13 @@ class Document extends Model
         return $this->belongsTo(Dropdown::class, 'type_id');
     }
 
-    public function sto()
+    public function stoFirst()
     {
-        return $this->belongsTo(Dropdown::class, 'sto_id');
+        return $this->belongsTo(Dropdown::class, 'first_sto_id');
+    }
+
+    public function stoLast()
+    {
+        return $this->belongsTo(Dropdown::class, 'last_sto_id');
     }
 }
