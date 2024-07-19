@@ -38,4 +38,10 @@ class Dropdown extends Model
     {
         return $this->hasMany(Document::class, 'type_id');
     }
+
+    public function typeCore()
+    {
+        return $this->hasMany(Core::class, 'type_id');
+    }
+
 }

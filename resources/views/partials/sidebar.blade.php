@@ -54,6 +54,14 @@
                                     <i class="bi bi-person me-3"></i>
                                     <span class="submenu-title">User</span>
                                 </a>
+                                <a href="{{ url('/core') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('core') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                    <i class="bi bi-person me-3"></i>
+                                    <span class="submenu-title">Core Potential</span>
+                                </a>
+                                <a href="{{ url('/cme') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('cme') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Surat">
+                                    <i class="bi bi-person me-3"></i>
+                                    <span class="submenu-title">CME Potential</span>
+                                </a>
                                 <a href="{{ route('logout') }}" class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('logout') ? 'active' : '' }}" data-bs-placement="right" data-bs-title="Logout">
                                 <i class="bi bi-box-arrow-left me-3"></i>
                                     <span class="submenu-title">Logout</span>

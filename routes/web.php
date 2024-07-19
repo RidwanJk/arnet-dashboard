@@ -7,6 +7,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfNotAuthenticated;
 use App\Http\Controllers\STOController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\CoreController;
+use App\Http\Controllers\CmeController;
+
 
 
 
@@ -74,3 +77,22 @@ Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('deleteuse
 Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit')->middleware(RedirectIfNotAuthenticated::class);
 Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
 
+//Core
+Route::get('/core', [CoreController::class, 'index'])->name('core')->middleware(RedirectIfNotAuthenticated::class);
+Route::resource('core', CoreController::class)->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/viewcore', [CoreController::class, 'index'])->name('viewcore')->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/addcore', [CoreController::class, 'create'])->name('addcore')->middleware(RedirectIfNotAuthenticated::class);
+Route::post('/storecore', [CoreController::class, 'store'])->name('storecore');
+Route::delete('/core/{id}', [CoreController::class, 'destroy'])->name('deletecore');
+Route::get('/core/{id}/edit', [CoreController::class, 'edit'])->name('core.edit')->middleware(RedirectIfNotAuthenticated::class);
+Route::put('/core/{id}', [CoreController::class, 'update'])->name('core.update');
+
+//Cme
+Route::get('/cme', [CmeController::class, 'index'])->name('cme')->middleware(RedirectIfNotAuthenticated::class);
+Route::resource('cme', CmeController::class)->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/viewcme', [CmeController::class, 'index'])->name('viewcme')->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/addcme', [CmeController::class, 'create'])->name('addcme')->middleware(RedirectIfNotAuthenticated::class);
+Route::post('/storecme', [CmeController::class, 'store'])->name('storecme');
+Route::delete('/cme/{id}', [CmeController::class, 'destroy'])->name('deletecme');
+Route::get('/cme/{id}/edit', [CmeController::class, 'edit'])->name('cme.edit')->middleware(RedirectIfNotAuthenticated::class);
+Route::put('/cme/{id}', [CmeController::class, 'update'])->name('cme.update');
