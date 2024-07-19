@@ -43,7 +43,14 @@ if (session()->has('success')):?>
                                 <th>STO Location</th>
                                 <th>Room Type</th>
                                 <th>Preview</th>
-                                <th>File Download</th>
+                                <th>File Download
+                                    <br>                                    
+                                    <small class="text-muted">
+                                    <i class="bi bi-arrow-down-square-fill"></i>                                        
+                                    VSD & 
+                                    <i class="bi bi-arrow-down-square-fill img"></i>
+                                    IMG</small>
+                                </th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -70,13 +77,14 @@ if (session()->has('success')):?>
                                                                 @endif
                                                             </td>
                                                             @if ($d->file)
-                                                                <td><a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i
-                                                                            class="bi bi-download"></i></a></td>
-                                                            @else
-                                                                <td><a href="{{ asset($d->converted_image) }}" title="Download" class="btn btn-primary"
+                                                                <td><a href="{{ asset($d->file) }}" title="Download VSD" class="btn btn-info" download><i
+                                                                            class="bi bi-download"></i></a>
+                                                                <a href="{{ asset($d->converted_image) }}" title="Download IMG" class="btn btn-success  "
                                                                         download><i class="bi bi-download"></i></a></td>
-                                                            @endif
-                                                            <td class="text-center">
+                                                            @else
+                                                                <td><a href="{{ asset($d->converted_image) }}" title="Download IMG" class="btn btn-success  "
+                                                                        download><i class="bi bi-download"></i></a></td>
+                                                            @endif                                  <td class="text-center">
                                                                 <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
                                                                     <i class="bi bi-pencil"></i>
                                                                 </a>

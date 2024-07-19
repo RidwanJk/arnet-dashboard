@@ -81,3 +81,10 @@ aside.bd-sidebar .sidebar-body .list-group-item {
     --bs-pagination-color: #7c1f1a !important;
     --bs-pagination-active-bg: #7c1f1a !important;
 }
+
+.bi-arrow-down-square-fill{
+    color: #31D2F2;
+}
+.img{
+    color: #157347;
+}
