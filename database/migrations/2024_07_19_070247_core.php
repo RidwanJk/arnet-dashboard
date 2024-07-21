@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('cores', function (Blueprint $table) {
             $table->id();
             $table->string('segment');            
+            $table->string('ccount')->nullable()->default(0);
             $table->string('good')->nullable()->default(0);
             $table->string('bad')->nullable()->default(0);
             $table->string('used')->nullable()->default(0);
