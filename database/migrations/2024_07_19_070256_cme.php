@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cme', function (Blueprint $table) {
+        Schema::create('cmes', function (Blueprint $table) {
             $table->id();
             $table->string('total')->nullable()->default(0);       
             $table->string('underfive')->nullable()->default(0);       
