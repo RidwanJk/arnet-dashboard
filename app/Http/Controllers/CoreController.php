@@ -81,4 +81,36 @@ class CoreController extends Controller
 
         return redirect()->route('core.index')->with('success', 'File successfully uploaded and data stored.');
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Core $core)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Core $core)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Core $core)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(core $core)
+    {
+        //
+    }
 }
