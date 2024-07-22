@@ -39,6 +39,7 @@
                             @if ($data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0 || $data['total'] != 0)
                                 <div class="col-md-6 mb-4">
                                     <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                                        <h6 class="text-center font-weight-bold mb-2">Bar Chart for {{ $data['ruas'] }}</h6>
                                         <canvas id="chart-{{ $loop->index }}"></canvas>
                                     </div>
                                 </div>
@@ -62,7 +63,7 @@
                         data: {
                             labels: ['Good', 'Bad', 'Used', 'Total'],
                             datasets: [{
-                                label: `Bar Chart for ${data.ruas}`,
+                                label: '',
                                 data: [data.good, data.bad, data.used, data.total],
                                 backgroundColor: [
                                     'rgba(75, 192, 192, 0.2)',
@@ -83,6 +84,11 @@
                             scales: {
                                 y: {
                                     beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
                                 }
                             }
                         }
