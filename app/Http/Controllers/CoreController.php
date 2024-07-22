@@ -19,6 +19,15 @@ class CoreController extends Controller
 
         $chartData = [];
         foreach ($cores as $core) {
+            if (
+                !is_numeric($core->good) && $core->good == 0 &&
+                !is_numeric($core->bad) && $core->bad == 0 &&
+                !is_numeric($core->used) && $core->used == 0 &&
+                !is_numeric($core->total) && $core->total == 0
+            ) {
+                continue;
+            }
+
             $chartData[] = [
                 'ruas' => $core->segment,
                 'good' => $core->good,
@@ -57,7 +66,6 @@ class CoreController extends Controller
         $spreadsheet = IOFactory::load(Storage::disk('public')->path('core/' . $fileName));
         $sheet = $spreadsheet->getSheetByName('Pivot');
         $data = $sheet->toArray();
-
         array_shift($data);
 
         $processedData = [];
@@ -65,23 +73,34 @@ class CoreController extends Controller
             if (empty($row[0]) || !is_string($row[0])) {
                 break;
             }
-            $processedData[] = $row;
+
+            $good = is_numeric($row[1]) ? $row[1] : 0;
+            $bad = is_numeric($row[2]) ? $row[2] : 0;
+            $used = is_numeric($row[3]) ? $row[3] : 0;
+            $total = is_numeric($row[4]) ? $row[4] : 0;
+
+            $processedData[] = [
+                'segment' => $row[0],
+                'good' => $good,
+                'bad' => $bad,
+                'used' => $used,
+                'total' => $total,
+            ];
         }
 
         DB::table('cores')->truncate();
         foreach ($processedData as $row) {
             Core::create([
-                'segment' => $row[0],
-                'good' => $row[1] ?? 0,
-                'bad' => $row[2] ?? 0,
-                'used' => $row[3] ?? 0,
-                'total' => $row[4] ?? 0,
+                'segment' => $row['segment'],
+                'good' => $row['good'],
+                'bad' => $row['bad'],
+                'used' => $row['used'],
+                'total' => $row['total'],
             ]);
         }
 
         return redirect()->route('core.index')->with('success', 'File successfully uploaded and data stored.');
     }
-
     /**
      * Display the specified resource.
      */
