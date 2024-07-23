@@ -16,7 +16,7 @@ class Cme extends Model
         'morethanfive',
         'morethanten',
         'type_id',
-        'year',
+        
     ];
 
     public function cmeSto()
