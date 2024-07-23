@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cme;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CmeController extends Controller
 {
@@ -12,7 +13,7 @@ class CmeController extends Controller
      */
     public function index()
     {
-                
+
         return view('cme.index');
     }
 
@@ -29,7 +30,15 @@ class CmeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'berita_acara' => 'required|mimes:xlsx,xls|max:2048',
+        ]);
+        $fileName = 'Cme.' . $request->file('berita_acara')->getClientOriginalExtension();
+        if (Storage::disk('public')->exists('cme/' . $fileName)) {
+            Storage::disk('public')->delete('cme/' . $fileName);
+        }
+        $request->file('berita_acara')->storeAs('cme', $fileName, 'public');
+        return redirect()->route('cme.create')->with('success', 'File berhasil diupload.');
     }
 
     /**
