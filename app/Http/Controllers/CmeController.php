@@ -38,7 +38,8 @@ class CmeController extends Controller
             Storage::disk('public')->delete('cme/' . $fileName);
         }
         $request->file('berita_acara')->storeAs('cme', $fileName, 'public');
-        return redirect()->route('cme.create')->with('success', 'File berhasil diupload.');
+        shell_exec("python ../resources/pyScript/cme.py");
+        return redirect()->route('cme.index')->with('success', 'File berhasil diupload.');
     }
 
     /**
