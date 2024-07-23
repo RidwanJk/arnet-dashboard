@@ -56,50 +56,13 @@ class CoreController extends Controller
         $request->validate([
             'berita_acara' => 'required|mimes:xlsx,xls|max:2048',
         ]);
-
         $fileName = 'Core.' . $request->file('berita_acara')->getClientOriginalExtension();
         if (Storage::disk('public')->exists('core/' . $fileName)) {
             Storage::disk('public')->delete('core/' . $fileName);
         }
-        $path = $request->file('berita_acara')->storeAs('core', $fileName, 'public');
-
-        $spreadsheet = IOFactory::load(Storage::disk('public')->path('core/' . $fileName));
-        $sheet = $spreadsheet->getSheetByName('Pivot');
-        $data = $sheet->toArray();
-        array_shift($data);
-
-        $processedData = [];
-        foreach ($data as $row) {
-            if (empty($row[0]) || !is_string($row[0])) {
-                break;
-            }
-
-            $good = is_numeric($row[1]) ? $row[1] : 0;
-            $bad = is_numeric($row[2]) ? $row[2] : 0;
-            $used = is_numeric($row[3]) ? $row[3] : 0;
-            $total = is_numeric($row[4]) ? $row[4] : 0;
-
-            $processedData[] = [
-                'segment' => $row[0],
-                'good' => $good,
-                'bad' => $bad,
-                'used' => $used,
-                'total' => $total,
-            ];
-        }
-
-        DB::table('cores')->truncate();
-        foreach ($processedData as $row) {
-            Core::create([
-                'segment' => $row['segment'],
-                'good' => $row['good'],
-                'bad' => $row['bad'],
-                'used' => $row['used'],
-                'total' => $row['total'],
-            ]);
-        }
-
-        return redirect()->route('core.index')->with('success', 'File successfully uploaded and data stored.');
+        $request->file('berita_acara')->storeAs('core', $fileName, 'public');
+        shell_exec("python ../resources/pyScript/core.py");
+        return redirect()->route('core.index')->with('success', 'File berhasil diupload.');
     }
     /**
      * Display the specified resource.
