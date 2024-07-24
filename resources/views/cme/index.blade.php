@@ -22,83 +22,91 @@
     </div>
 @endif
 
-<!-- TABLE -->
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title text-uppercase">Potential CME</h6>
+                <h6 class="card-title text-uppercase">Core Potential</h6>
                 <div>
-                    <a href="{{ route('addcme') }}" class="btn btn-primary mb-4 mt-3">
-                        <i class="bi bi-plus me-3"></i>Insert New Potential CME
+                    <a href="{{ route('addcore') }}" class="btn btn-primary mb-4 mt-3">
+                        <i class="bi bi-plus me-3"></i>Insert New Core Potential
                     </a>
                 </div>
-            </div>
+
+                <!-- DOUGHNUT CHART -->
+                 <div class="container-chart">
+                     <div class="col-12 col-md-4 mb-3">
+                         <div class="card chart-card">
+                             <div class="card-body">
+                                 <h3 class="mb-5 text-center">Potensial CME in Every</h3>
+                                 <canvas id="doughnut-chart"></canvas>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                <!-- END OF DOUGHNUT CHART -->
+
         </div>
     </div>
 </div>
-<!-- END OF TABLE -->
-
-{{-- IMAGE OVERLAY --}}
-<div id="imageOverlay" class="image-overlay" style="display: none;">
-    <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
-    <img id="overlayImage" src="" class="overlay-image">
-</div>
-{{-- END OF IMAGE OVERLAY --}}
-
-<!-- DELETE MODAL -->
-<div class="modal fade" id="handleDelete">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this item?</p>
-                <form id="deleteForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <input type="hidden" name="id" id="deleteId">
-                    <button type="submit" class="btn btn-primary">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END OF DELETE MODAL -->
-
-@endsection
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var handleDelete = document.getElementById('handleDelete');
-        handleDelete.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var id = button.getAttribute('data-id');
+        // Doughnut Chart
+        const grandtotal = @json($grandtotal);
+        // Extract labels and data
+        const ids = grandtotal.map(item => item.id);
+        const labels = grandtotal.map(item => item.sto);
+        const data = grandtotal.map(item => item.total);
 
-            var deleteForm = document.getElementById('deleteForm');
-            var deleteIdInput = document.getElementById('deleteId');
+        // Function to generate random color
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
 
-            var action = "{{ route('document.destroy', ':id') }}";
-            action = action.replace(':id', id);
+        // Generate colors based on data length
+        const backgroundColors = data.map(() => getRandomColor());
 
-            deleteForm.action = action;
-            deleteIdInput.value = id;
+        const ctx2 = document.getElementById('doughnut-chart');
+        const doughnutChart = new Chart(ctx2, {
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const chartElement = elements[0];
+                        const index = chartElement.index;
+                        const id = ids[index];
+                        window.location.href = `/cme/${id}`;
+                    }
+                }
+            },
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '',
+                    data: data,
+                    backgroundColor: backgroundColors
+                }]
+            }
         });
     });
 
-    function showImage(imageUrl) {
-        document.getElementById('overlayImage').src = imageUrl;
-        document.getElementById('imageOverlay').style.display = "block";
-    }
 
-    function closeImageOverlay() {
-        document.getElementById('imageOverlay').style.display = "none";
-    }
 
-    function showPDF(url) {
-        window.open(url, '_blank');
-    }
+
+
 </script>
+
+
+@endsection
