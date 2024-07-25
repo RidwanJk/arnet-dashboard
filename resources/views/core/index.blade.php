@@ -33,14 +33,17 @@
                         </a>
                     </div>
 
-                    {{-- Render Charts --}}
                     <div class="row">
                         @foreach ($chartData as $data)
-                            @if ($data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0 || $data['total'] != 0)
-                                <div class="col-md-6 mb-4">
-                                    <div class="chart-container" style="position: relative; height:40vh; width:100%">
-                                        <h6 class="text-center font-weight-bold mb-2">Bar Chart for {{ $data['ruas'] }}</h6>
-                                        <canvas id="chart-{{ $loop->index }}"></canvas>
+                            @if ($data['ccount'] != 0 || $data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0 || $data['total'] != 0)
+                                <div class="col-12 col-md-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                                                <h6 class="text-center font-weight-bold mb-2">Bar Chart for {{ $data['ruas'] }}</h6>
+                                                <canvas id="chart-{{ $loop->index }}"></canvas>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -54,24 +57,25 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const chartData = @json($chartData);
-
             chartData.forEach((data, index) => {
-                if (data.good != 0 || data.bad != 0 || data.used != 0 || data.total != 0) {
+                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0 || data.total != 0) {
                     const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Good', 'Bad', 'Used', 'Total'],
+                            labels: ['Ccount', 'Good', 'Bad', 'Used', 'Total'],
                             datasets: [{
                                 label: '',
-                                data: [data.good, data.bad, data.used, data.total],
+                                data: [data.ccount, data.good, data.bad, data.used, data.total],
                                 backgroundColor: [
+                                    'rgba(54, 162, 235, 0.2)',
                                     'rgba(75, 192, 192, 0.2)',
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(255, 206, 86, 0.2)',
                                     'rgba(153, 102, 255, 0.2)'
                                 ],
                                 borderColor: [
+                                    'rgba(54, 162, 235, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(255, 206, 86, 1)',
@@ -83,7 +87,10 @@
                         options: {
                             scales: {
                                 y: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    ticks:{
+                                        stepSize: 12
+                                    }
                                 }
                             },
                             plugins: {
