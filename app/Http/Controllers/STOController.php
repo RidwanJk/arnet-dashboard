@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dropdown;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,10 +12,11 @@ class STOController extends Controller
     public function index()
     {
 
+        $user = User::find(session('user_id'));
         $sto = Dropdown::where('type', 'sto')->get();
         // sort bye name
         $sto = $sto->sortBy('subtype');
-        return view('sto/index', ['stos' => $sto]);
+        return view('sto/index', ['stos' => $sto, 'user' => $user]);
     }
 
     public function create()

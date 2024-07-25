@@ -14,8 +14,10 @@ class MapController extends Controller
 {
     public function index()
     {
+        $user = User::find(session('user_id'));
+        // dd($user->toArray());
         $denah = Map::with(['sto', 'room'])->get();
-        return view('denah/index', ['denah' => $denah]);
+        return view('denah/index', ['denah' => $denah, 'user' => $user]);
     }
 
     public function create()

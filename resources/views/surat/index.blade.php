@@ -95,9 +95,12 @@
                                                 class="btn btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
+                                            @if ($user->role == '0')
                                             <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
                                                 data-bs-toggle="modal" data-bs-target="#handleDelete"><i
                                                     class="bi bi-trash"></i></button>
+                                            
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

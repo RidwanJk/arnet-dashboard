@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Dropdown;
 use Illuminate\Support\Facades\Validator;
@@ -12,8 +13,9 @@ class RoomController extends Controller
     //
     public function index()
     {
+        $user = User::find(session('user_id'));
         $room = Dropdown::where('type', 'room')->get();
-        return view('room/index', ['rooms' => $room]);
+        return view('room/index', ['rooms' => $room, 'user' => $user]);
     }
 
     public function create()

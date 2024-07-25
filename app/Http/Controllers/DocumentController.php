@@ -15,8 +15,9 @@ class DocumentController extends Controller
 {
     public function index()
     {
+        $user = User::find(session('user_id'));
         $documents = Document::all();
-        return view('surat.index', ['surat' => $documents]);
+        return view('surat.index', ['surat' => $documents, 'user' => $user]);
     }
 
     public function create()

@@ -90,9 +90,11 @@ if (session()->has('success')):?>
                                                                 <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
                                                                     <i class="bi bi-pencil"></i>
                                                                 </a>
+                                                                @if ($user->role == '0')
                                                                 <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
-                                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"><i
-                                                                        class="bi bi-trash"></i></button>
+                                                                data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+                                                                class="bi bi-trash"></i></button>
+                                                                @endif
                                                                 {{-- <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal"
                                                                     data-bs-target="#deleteModal" onclick="handleDelete({{ $d->id }})">
                                                                     <i class="bi bi-trash"></i>

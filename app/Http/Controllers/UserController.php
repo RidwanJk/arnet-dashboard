@@ -97,6 +97,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user = User::all();
+        
         return view('user/index', ['users' => $user]);
     }
 
