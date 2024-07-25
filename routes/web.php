@@ -92,6 +92,7 @@ Route::get('/cme', [CmeController::class, 'index'])->name('cme')->middleware(Red
 Route::resource('cme', CmeController::class)->middleware(RedirectIfNotAuthenticated::class);
 Route::get('/viewcme', [CmeController::class, 'index'])->name('viewcme')->middleware(RedirectIfNotAuthenticated::class);
 Route::get('/addcme', [CmeController::class, 'create'])->name('addcme')->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/cme/{id}', [CmeController::class, 'show'])->name('cme.show')->middleware(RedirectIfNotAuthenticated::class);
 Route::post('/storecme', [CmeController::class, 'store'])->name('storecme');
 Route::delete('/cme/{id}', [CmeController::class, 'destroy'])->name('deletecme');
 Route::get('/cme/{id}/edit', [CmeController::class, 'edit'])->name('cme.edit')->middleware(RedirectIfNotAuthenticated::class);

@@ -88,3 +88,10 @@ aside.bd-sidebar .sidebar-body .list-group-item {
 .img{
     color: #157347;
 }
+
+.container-chart{
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    height: 100vh;         
+}

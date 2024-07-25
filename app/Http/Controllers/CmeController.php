@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\DB;
 class CmeController extends Controller
 {
     /**
@@ -13,8 +13,31 @@ class CmeController extends Controller
      */
     public function index()
     {
+        $cmes = Cme::all();
 
-        return view('cme.index');
+        # data for count column where the the sto_id is same from cmes
+        $gds = Cme::select('sto_id',DB::raw('SUM(count) as total_count'))->groupBy('sto_id')->get(); 
+
+
+        $grandtotal = [];
+        foreach ($gds as $gd) {
+            if (
+                !is_numeric($gd->sto_id) && $gd->sto_id == 0 &&
+                !is_numeric($gd->total_count) && $gd->total_count == 0
+            ) {
+                continue;
+            }
+
+            $grandtotal[] = [
+                'id' => $gd->sto_id,
+                'sto' => $gd->cmeSto->subtype,
+                'total'=> $gd->total_count,
+            ];
+        }
+
+        
+
+        return view('cme.index', compact('grandtotal'));
     }
 
     /**
@@ -45,9 +68,31 @@ class CmeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cme $cme)
+    public function show($id)
     {
-        //
+        // Ambil data berdasarkan ID
+        $cmes = Cme::where('sto_id', $id)->get();
+
+        $chartData = [];
+        foreach ($cmes as $cme) {
+            if (
+                !is_numeric($cme->underfive) && $cme->underfive == 0 &&
+                !is_numeric($cme->morethanfive) && $cme->morethanfive == 0 &&
+                !is_numeric($cme->morethanten) && $cme->morethanten == 0 
+            ) {
+                continue;
+            }
+
+            $chartData[] = [
+                'name' => $cme->cmeSto->subtype,
+                'device' => $cme->cmeType->subtype,
+                'underfive' => $cme->underfive,
+                'morethanfive' => $cme->morethanfive,
+                'morethanten' => $cme->morethanten,
+            ];
+        }
+        // Kirim data ke view
+        return view('cme.bar', compact('chartData'));
     }
 
     /**
