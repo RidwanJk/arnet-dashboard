@@ -11,6 +11,7 @@ class Core extends Model
 
     protected $fillable = [
         'segment',
+        'ccount',
         'good',
         'bad',
         'used',

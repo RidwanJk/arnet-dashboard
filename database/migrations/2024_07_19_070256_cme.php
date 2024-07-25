@@ -13,13 +13,19 @@ return new class extends Migration
     {
         Schema::create('cmes', function (Blueprint $table) {
             $table->id();
-            $table->string('total')->nullable()->default(0);       
+            $table->unsignedBigInteger('sto_id');
+            $table->unsignedBigInteger('type_id');
+            $table->string('count')->nullable()->default(0);
             $table->string('underfive')->nullable()->default(0);       
             $table->string('morethanfive')->nullable()->default(0);       
             $table->string('morethanten')->nullable()->default(0);       
-            $table->unsignedBigInteger('type_id');
-            $table->string('year')->nullable()->default(0);            
+            $table->string('grandtotal')->nullable()->default(0);     
+            // $table->string('year')->nullable()->default(0);            
             $table->timestamps();
+
+            $table->foreign('sto_id')->references('id')->on('dropdowns')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('dropdowns')->onDelete('cascade');
+            
         });
     }
 

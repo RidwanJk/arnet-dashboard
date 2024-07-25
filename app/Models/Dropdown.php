@@ -39,9 +39,19 @@ class Dropdown extends Model
         return $this->hasMany(Document::class, 'type_id');
     }
 
-    public function typeCore()
+    // public function typeCore()
+    // {
+    //     return $this->hasMany(Core::class, 'type_id');
+    // }
+
+    public function cmeSto()
     {
-        return $this->hasMany(Core::class, 'type_id');
+        return $this->hasMany(Cme::class,'sto_id');
+    }
+
+    public function cmeType()
+    {
+        return $this->hasMany(Cme::class,'type_id');
     }
 
 }

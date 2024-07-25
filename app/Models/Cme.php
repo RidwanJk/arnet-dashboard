@@ -11,14 +11,21 @@ class Cme extends Model
 
     protected $fillable = [
         'total',
+        'sto_id',
         'underfive',
         'morethanfive',
         'morethanten',
         'type_id',
-        'year',
+        
     ];
 
-    public function deviceType()
+    public function cmeSto()
+    {
+        return $this->belongsTo(Dropdown::class, 'sto_id');
+    }
+
+
+    public function cmeType()
     {
         return $this->belongsTo(Dropdown::class, 'type_id');
     }
