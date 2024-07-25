@@ -61,7 +61,15 @@ class CoreController extends Controller
             Storage::disk('public')->delete('core/' . $fileName);
         }
         $request->file('berita_acara')->storeAs('core', $fileName, 'public');
-        shell_exec("python ../resources/pyScript/core.py");
+
+        $filePath = storage_path('app/public/core/Core.xls');
+        $pythonScriptPath = base_path('resources\pyScript\core.py');
+        // Command to run the Python script with file path as an argument
+
+        $command = escapeshellcmd("python $pythonScriptPath $filePath");
+        // dd($command);
+        shell_exec($command);
+
         return redirect()->route('core.index')->with('success', 'File berhasil diupload.');
     }
     /**
