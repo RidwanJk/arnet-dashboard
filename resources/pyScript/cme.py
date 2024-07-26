@@ -12,6 +12,9 @@
 import numpy as np
 import pandas as pd
 import pymysql
+import os
+import openpyxl
+import xlrd
 
 
 # ### Read Data ###
@@ -19,8 +22,38 @@ import pymysql
 # In[13]:
 
 
-df = pd.read_excel('../storage/app/public/cme/Cme.xlsx')
-df.head()
+file_xlsx = '../storage/app/public/cme/Cme.xlsx'
+file_xls = '../storage/app/public/cme/Cme.xls'
+
+# Cek apakah file ada
+file_exists_xlsx = os.path.exists(file_xlsx)
+file_exists_xls = os.path.exists(file_xls)
+
+# Jika kedua file ada, bandingkan waktu modifikasinya
+if file_exists_xlsx and file_exists_xls:
+    # Mendapatkan waktu modifikasi file
+    time_xlsx = os.path.getmtime(file_xlsx)
+    time_xls = os.path.getmtime(file_xls)
+
+    # Memilih file yang paling baru diedit
+    if time_xlsx > time_xls:
+        file_path = file_xlsx
+        engine = 'openpyxl'
+    else:
+        file_path = file_xls
+        engine = 'xlrd'
+elif file_exists_xlsx:
+    file_path = file_xlsx
+    engine = 'openpyxl'
+elif file_exists_xls:
+    file_path = file_xls
+    engine = 'xlrd'
+else:
+    raise FileNotFoundError("Neither CME.xlsx nor CME.xls were found.")
+
+# Membaca file Excel
+df = pd.read_excel(file_path, engine=engine, skiprows=1, sheet_name='Data Potensi')
+
 
 
 # In[14]:
