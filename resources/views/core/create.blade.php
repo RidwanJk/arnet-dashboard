@@ -34,8 +34,8 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="berita_acara" class="form-label">Core Potential</label>
-                        <input class="form-control" type="file" id="berita_acara" name="berita_acara"
+                        <label for="file" class="form-label">Core Potential</label>
+                        <input class="form-control" type="file" id="file" name="file"
                             accept=".xlsx, .xls">
                         <div class="italic">
                             <span>File type must be Excel format</span>

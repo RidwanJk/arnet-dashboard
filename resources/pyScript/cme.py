@@ -52,7 +52,7 @@ else:
     raise FileNotFoundError("Neither CME.xlsx nor CME.xls were found.")
 
 # Membaca file Excel
-df = pd.read_excel(file_path, engine=engine, skiprows=1, sheet_name='Data Potensi')
+df = pd.read_excel(file_path, engine=engine)
 
 
 

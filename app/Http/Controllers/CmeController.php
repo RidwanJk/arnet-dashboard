@@ -54,13 +54,13 @@ class CmeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'berita_acara' => 'required|mimes:xlsx,xls|max:2048',
+            'file' => 'required|mimes:xlsx,xls|max:2048',
         ]);
-        $fileName = 'Cme.' . $request->file('berita_acara')->getClientOriginalExtension();
+        $fileName = 'Cme.' . $request->file('file')->getClientOriginalExtension();
         if (Storage::disk('public')->exists('cme/' . $fileName)) {
             Storage::disk('public')->delete('cme/' . $fileName);
         }
-        $request->file('berita_acara')->storeAs('cme', $fileName, 'public');
+        $request->file('file')->storeAs('cme', $fileName, 'public');
         shell_exec("python ../resources/pyScript/cme.py");
         return redirect()->route('cme.index')->with('success', 'File berhasil diupload.');
     }

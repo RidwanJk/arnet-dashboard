@@ -5,6 +5,7 @@ import argparse
 import sys
 import os
 import openpyxl
+import xlrd
 
 file_xlsx = '../storage/app/public/core/Core.xlsx'
 file_xls = '../storage/app/public/core/Core.xls'
@@ -36,7 +37,7 @@ else:
     raise FileNotFoundError("Neither Core.xlsx nor Core.xls were found.")
 
 # Membaca file Excel
-df = pd.read_excel(file_path, engine=engine, skiprows=1, sheet_name='Data Potensi')
+df = pd.read_excel(file_path, engine=engine)
 
 
 

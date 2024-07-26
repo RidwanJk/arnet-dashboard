@@ -55,14 +55,15 @@ class CoreController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
-            'berita_acara' => 'required|mimes:xlsx,xls|max:2048',
+            'file' => 'required|mimes:xlsx,xls|max:2048',
         ]);
-        $fileName = 'Core.' . $request->file('berita_acara')->getClientOriginalExtension();
+        $fileName = 'Core.' . $request->file('file')->getClientOriginalExtension();
         if (Storage::disk('public')->exists('core/' . $fileName)) {
             Storage::disk('public')->delete('core/' . $fileName);
         }
-        $request->file('berita_acara')->storeAs('core', $fileName, 'public');
+        $request->file('file')->storeAs('core', $fileName, 'public');
         shell_exec("python ../resources/pyScript/core.py");
         return redirect()->route('core.index')->with('success', 'File berhasil diupload.');
     }
