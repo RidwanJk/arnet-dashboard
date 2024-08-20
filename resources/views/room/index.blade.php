@@ -27,7 +27,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title text-uppercase">Documents</h6>
+                <h6 class="card-title text-uppercase">Room</h6>
                 <div>
                     <a href="{{ route('addroom') }}" class="btn btn-primary mb-4 mt-3">
                         <i class="bi bi-plus me-3"></i>Create New Room Type

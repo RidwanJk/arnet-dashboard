@@ -35,22 +35,23 @@ class UserController extends Controller
 
     public function signin(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
             'password' => 'required',
         ]);
-
+    
         $credentials = $request->only('name', 'password');
-
         $user = User::where('name', $credentials['name'])->first();
+    
         if ($user && Hash::check($credentials['password'], $user->password)) {
+            Auth::login($user); // Logs in the user
             $request->session()->put('user_id', $user->id);
             return redirect()->route('denah.index');
         } else {
             return redirect()->route('login')->with('error', 'Username or password incorrect.');
         }
     }
+    
 
     public function logout(Request $request)
     {

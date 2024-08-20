@@ -43,7 +43,7 @@ Route::get('/viewdocument', [DocumentController::class, 'index'])->name('viewdoc
 Route::get('/adddocument', [DocumentController::class, 'create'])->name('adddocument')->middleware(RedirectIfNotAuthenticated::class);
 Route::post('/storedocument', [DocumentController::class, 'store'])->name('storedocument');
 Route::get('/document/show/{id}', [DocumentController::class, 'show']);
-Route::delete('/document/{id}', [DocumentController::class, 'destroy'])->name('deletedocument')->middleware(CheckUserRole::class);;
+Route::delete('/document/{id}', [DocumentController::class, 'destroy'])->name('deletedocument')->middleware(CheckUserRole::class);
 Route::get('/document/{id}/edit', [DocumentController::class, 'edit'])->name('document.edit')->middleware(RedirectIfNotAuthenticated::class);
 Route::put('/document/{id}', [DocumentController::class, 'update'])->name('document.update');
 

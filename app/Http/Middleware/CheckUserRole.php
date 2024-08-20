@@ -18,7 +18,7 @@ class CheckUserRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
+        if(Auth::check() && Auth::user()->role == '1'){
             abort(403, 'Unauthorized action.');
         }
 
