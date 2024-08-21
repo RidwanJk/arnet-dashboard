@@ -4,109 +4,143 @@
 
 @section('content')
 
-@if (session()->has('errors'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <ul class="m-0">
-            @foreach (session('errors') as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
+    @if (session()->has('errors'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul class="m-0">
+                @foreach (session('errors') as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
-@if (session()->has('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
+    @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <h6 class="card-title text-uppercase">CME Potential</h6>
-                <div>
-                    <a href="{{ route('addcme') }}" class="btn btn-primary mb-4 mt-3">
-                        <i class="bi bi-plus me-3"></i>Insert New CME Potential
-                    </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title text-uppercase mb-0">CME Potential</h5>
+                        <a href="{{ route('addcme') }}" class="btn btn-primary">
+                            <i class="bi bi-plus"></i> Insert New CME Potential
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-start">
+                            <p>Last updated:
+                                {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered w-100">
+                            <thead class="table-secondary text-center">
+                                <tr>
+                                    <th>No</th>
+                                    <th>STO</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (count($grandtotal) > 0)
+                                    @foreach ($grandtotal as $index => $data)
+                                        <tr data-bs-toggle="collapse" data-bs-target="#collapse-{{ $data['id'] }}"
+                                            aria-expanded="false" aria-controls="collapse-{{ $data['id'] }}"
+                                            style="cursor: pointer">
+                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td>{{ $data['sto'] }}</td>
+                                            <td class="text-center">{{ $data['total'] }}</td>
+                                            <td class="text-center"><i class="bi bi-chevron-down"></i></td>
+                                        </tr>
+                                        <tr id="collapse-{{ $data['id'] }}" class="collapse">
+                                            <td colspan="4">
+                                                <div class="chart-container d-flex justify-content-center align-items-center"
+                                                    style="height:70vh; width:100%">
+                                                    <div id="chart-{{ $data['id'] }}" style="height:100%; width:100%">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="4" class="text-center">No data available in table</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <!-- DOUGHNUT CHART -->
-                 <div class="container-chart">
-                     <div class="col-12 col-md-4 mb-3">
-                         <div class="card chart-card">
-                             <div class="card-body">
-                                 <h3 class="mb-5 text-center">Potensial CME in Every</h3>
-                                 <canvas id="doughnut-chart"></canvas>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-                <!-- END OF DOUGHNUT CHART -->
-
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Doughnut Chart
-        const grandtotal = @json($grandtotal);
-        // Extract labels and data
-        const ids = grandtotal.map(item => item.id);
-        const labels = grandtotal.map(item => item.sto);
-        const data = grandtotal.map(item => item.total);
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.min.js"></script>
+    <script>
+        const chartData = @json($chartData);
 
-        // Function to generate random color
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-
-        // Generate colors based on data length
-        const backgroundColors = data.map(() => getRandomColor());
-
-        const ctx2 = document.getElementById('doughnut-chart');
-        const doughnutChart = new Chart(ctx2, {
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                },
-                onClick: (event, elements) => {
-                    if (elements.length > 0) {
-                        const chartElement = elements[0];
-                        const index = chartElement.index;
-                        const id = ids[index];
-                        window.location.href = `/cme/${id}`;
-                    }
+        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const stoId = this.getAttribute('data-bs-target').replace('#collapse-', '');
+                const collapseElement = document.querySelector(this.getAttribute('data-bs-target'));
+                if (!collapseElement.classList.contains('show')) {
+                    renderChart(stoId);
                 }
-            },
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: '',
-                    data: data,
-                    backgroundColor: backgroundColors
-                }]
-            }
+            });
         });
-    });
 
-
-
-
-
-</script>
-
-
+        function renderChart(stoId) {
+            const data = chartData.find(item => item.id === parseInt(stoId));
+            if (data) {
+                const chartDom = document.getElementById(`chart-${stoId}`);
+                const myChart = echarts.init(chartDom);
+                const option = {
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left'
+                    },
+                    series: [{
+                        name: 'Devices',
+                        type: 'pie',
+                        radius: ['0%', '80%'],
+                        label: {
+                            show: true,
+                            position: 'outside',
+                            formatter: '{b}: {c} ({d}%)'
+                        },
+                        data: data.values.map((value, index) => ({
+                            value: value,
+                            name: data.labels[index],
+                            itemStyle: {
+                                color: data.colors[index]
+                            }
+                        })),
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }]
+                };
+                myChart.setOption(option);
+                myChart.on('click', function(params) {
+                    const typeId = data.type[params.dataIndex];
+                    window.location.href = `/cme/${stoId}/${typeId}`;
+                });
+            }
+        }
+    </script>
 @endsection

@@ -1,6 +1,7 @@
+
 @extends('layouts.app')
 
-@section('title', 'Telkom | CORE Potential')
+@section('title', 'Telkom | Document')
 
 @section('content')
 
@@ -22,30 +23,32 @@
         </div>
     @endif
 
-    <div class="row mb-3">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title text-uppercase">Core Potential</h5>
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
                             <a href="{{ route('addcore') }}" class="btn btn-primary mb-4 mt-3">
                                 <i class="bi bi-plus me-3"></i>Insert New Core Potential
                             </a>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle mb-4 mt-3" type="button"
-                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-bar-chart-fill"></i> Bar Chart
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="{{ route('corepie') }}">Pie Chart</a></li>
-                                </ul>
-                            </div>
                         </div>
-                        <p>Last updated:
-                            {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
-                        </p>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle mb-4 mt-3" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-pie-chart-fill"></i> Pie Chart
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="{{ route('core.index') }}">Bar Chart</a></li>
+                            </ul>
+                        </div>
                     </div>
+
+                    <p>Last updated:
+                        {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
+                    </p>
+
                     <div class="mb-4">
                         <div class="input-group">
                             <span class="input-group-text" id="search-addon">
@@ -55,25 +58,29 @@
                                 aria-describedby="search-addon">
                         </div>
                     </div>
-                    <div class="row" id="chart-container">
+
+                    <div class="row">
                         @foreach ($chartData as $index => $data)
-                            <div class="col-12 col-md-6 mb-3 chart-item" data-segment="{{ $data['ruas'] }}">
-                                <div class="card">
-                                    <div class="card-body position-relative">
-                                        <div class="chart-container" style="position: relative; height:40vh; width:100%">
-                                            <h6 class="text-center font-weight-bold mb-2">Bar Chart for
-                                                {{ $data['ruas'] }}</h6>
-                                            <div class="loading-spinner position-absolute top-50 start-50 translate-middle"
-                                                id="loading-{{ $index }}">
-                                                <div class="spinner-border" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
+                            @if ($data['ccount'] != 0 || $data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0 || $data['total'] != 0)
+                                <div class="col-12 col-md-6 mb-3 chart-item" data-segment="{{ $data['ruas'] }}">
+                                    <div class="card">
+                                        <div class="card-body d-flex justify-content-center align-items-center">
+                                            <div class="chart-container"
+                                                style="position: relative; height:40vh; width:40vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                                <h6 class="text-center font-weight-bold mb-2">Pie Chart for
+                                                    {{ $data['ruas'] }}</h6>
+                                                <div class="loading-spinner position-absolute top-50 start-50 translate-middle"
+                                                    id="loading-{{ $index }}">
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
                                                 </div>
+                                                <canvas id="chart-{{ $loop->index }}" style="display:none;"></canvas>
                                             </div>
-                                            <canvas id="chart-{{ $index }}" style="display:none;"></canvas>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -91,11 +98,10 @@
                 setTimeout(() => {
                     const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                     new Chart(ctx, {
-                        type: 'bar',
+                        type: 'pie',
                         data: {
                             labels: ['Kabel', 'Good', 'Bad', 'Used'],
                             datasets: [{
-                                label: '',
                                 data: [data.ccount, data.good, data.bad, data.used],
                                 backgroundColor: [
                                     'rgba(54, 162, 235, 0.2)',
@@ -113,20 +119,42 @@
                             }]
                         },
                         options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        stepSize: 4
+                            plugins: {
+                                tooltip: {
+                                    enabled: false
+                                },
+                                legend: {
+                                    display: true
+                                },
+                                datalabels: {
+                                    formatter: (value, ctx) => {
+                                        var percentage = (value / data.total) * 100;
+                                        return percentage.toFixed(2) !== '0.00' ? percentage
+                                            .toFixed(2) + '%' : '';
+                                    },
+                                    color: 'black',
+                                    font: (ctx) => {
+                                        var value = ctx.dataset.data[ctx.dataIndex];
+                                        var percentage = (value / data.total) * 100;
+                                        return {
+                                            weight: 'bold',
+                                            size: '12',
+                                            style: percentage < 5 ? 'normal' : 'normal'
+                                        };
+                                    },
+                                    anchor: 'end',
+                                    align: 'start',
+                                    offset: 10,
+                                    rotation: (ctx) => {
+                                        var value = ctx.dataset.data[ctx.dataIndex];
+                                        var percentage = (value / data.total) * 100;
+                                        return percentage < 5 ? -85 : 0;
                                     }
                                 }
-                            },
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
                             }
-                        }
+                        },
+                        
+                        plugins: [ChartDataLabels]
                     });
 
                     document.getElementById(`loading-${index}`).style.display = 'none';
@@ -152,5 +180,6 @@
                 });
             });
         });
+
     </script>
 @endsection
