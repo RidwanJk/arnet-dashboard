@@ -25,7 +25,8 @@ class DocumentController extends Controller
         $user = User::find(session('user_id'));
         $sto = Dropdown::where('type', 'sto')->get();
         $type = Dropdown::where('type', 'room')->get();
-        return view('surat.create', ['sto' => $sto, 'type' => $type]);
+        $berat = Dropdown::where('type', 'berat')->get();
+        return view('surat.create', ['sto' => $sto, 'type' => $type, 'berat' => $berat]);
     }
 
     public function store(Request $request)
@@ -38,6 +39,7 @@ class DocumentController extends Controller
             'serial' => 'required|string|max:255',
             'first_sto_id' => 'required|string:max:255',
             'last_sto_id' => 'required|string|max:255',
+            'berat_id' => 'required|string|max:255',
             'evidence' => 'required|mimes:jpeg,png|max:2048',
             'berita_acara' => 'required|mimes:pdf,docx|max:2048',
             'status' => 'required|string|in:belum scrap,scrap',
@@ -65,6 +67,7 @@ class DocumentController extends Controller
         $document->serial = $request->input('serial');
         $document->first_sto_id = $request->input('first_sto_id');
         $document->last_sto_id = $request->input('last_sto_id');
+        $document->berat_id = $request->input('berat_id');
         $document->evidence = $evidencePath;
         $document->ba = $beritaAcaraPath;
         $document->status = $request->input('status');
@@ -93,7 +96,9 @@ class DocumentController extends Controller
         $document = Document::find($id);
         $sto = Dropdown::where('type', 'sto')->get();
         $type = Dropdown::where('type', 'room')->get();
-        return view('surat.edit', ['surat' => $document, 'sto' => $sto, 'type' => $type]);
+        //berat
+        $berat = Dropdown::where('type', 'berat')->get();
+        return view('surat.edit', ['surat' => $document, 'sto' => $sto, 'type' => $type, 'berat'=> $berat]);
     }
 
     public function update(Request $request, $id)
@@ -111,6 +116,7 @@ class DocumentController extends Controller
             'serial' => 'required|string|max:255',
             'first_sto_id' => 'required|integer',
             'last_sto_id' => 'required|integer',
+            'berat_id' => 'required|string|max:255',
             'evidence' => 'nullable|mimes:jpeg,png|max:2048',
             'berita_acara' => 'nullable|mimes:pdf,docx|max:2048',
             'status' => 'required|string|in:belum scrap,scrap',
@@ -147,6 +153,7 @@ class DocumentController extends Controller
         $document->serial = $request->input('serial');
         $document->first_sto_id = $request->input('first_sto_id');
         $document->last_sto_id = $request->input('last_sto_id');
+        $document->berat_id = $request->input('berat_id');
         $document->status = $request->input('status');
         $document->additional = $request->input('tahun');
         $document->save();

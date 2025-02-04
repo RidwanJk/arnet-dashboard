@@ -72,6 +72,18 @@
                             @endforeach
                         </select>
                     </div>
+                    <!-- berat -->
+                    <div class="mb-3">
+                        <label for="berat_id" class="form-label">Berat</label>
+                        <select class="form-select" id="berat_id" name="berat_id">
+                            <option value="">Choose...</option>
+                            @foreach ($berat as $s)
+                                <option value="{{ $s->id }}" {{ old('berat_id') == $s->id ? 'selected' : '' }}>
+                                    {{ $s->subtype }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="mb-3">
                         <label for="evidence" class="form-label">Evidence</label>
                         <input class="form-control" type="file" id="evidence" name="evidence"

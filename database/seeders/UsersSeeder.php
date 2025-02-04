@@ -394,6 +394,23 @@ class UsersSeeder extends Seeder
                 'type' => ['category'],
                 'subtype' => ['DIESEL MOBILE'],
             ],
+            //Berat
+            '89' => [
+                'type' => ['berat'],
+                'subtype' => ['ringan'],
+            ],
+            '90' => [
+                'type' => ['berat'],
+                'subtype' => ['sedang'],
+            ],
+            '91' => [
+                'type' => ['berat'],
+                'subtype' => ['berat'],
+            ],
+            '92' => [
+                'type' => ['berat'],
+                'subtype' => ['sangat berat'],
+            ],
 
 
 

@@ -44,6 +44,7 @@
                                     <th>Serial Number</th>
                                     <th>First STO</th>
                                     <th>Last STO</th>
+                                    <th>Berat</th>
                                     <th>Evidence</th>
                                     <th>Berita Acara</th>
                                     <th>Status</th>
@@ -61,6 +62,7 @@
                                         <td>{{ $d->serial }}</td>
                                         <td>{{ optional($d->stoFirst)->subtype }}</td>
                                         <td>{{ optional($d->stoLast)->subtype }}</td>
+                                        <td>{{ optional($d->beratDropdown)->subtype}}</td>
                                         <td>
                                             @php
                                                 $evidence = $d->evidence ? asset('storage/' . $d->evidence) : null;

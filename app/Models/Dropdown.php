@@ -54,4 +54,10 @@ class Dropdown extends Model
         return $this->hasMany(Cme::class,'type_id');
     }
 
+    //berat
+    public function beratDocs()
+    {
+        return $this->hasMany(Document::class, 'berat_id');
+    }
+
 }

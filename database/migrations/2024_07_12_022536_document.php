@@ -19,15 +19,19 @@ return new class extends Migration
             $table->string('serial');
             $table->unsignedBigInteger('first_sto_id');
             $table->unsignedBigInteger('last_sto_id');
+            $table->unsignedBigInteger('berat_id');
             $table->string('evidence');
             $table->string('ba');
-            $table->string('status');
+            $table->string('status');            
             $table->string('additional')->nullable();
             $table->timestamps();
+
 
             $table->foreign('first_sto_id')->references('id')->on('dropdowns')->onDelete('cascade');
             $table->foreign('last_sto_id')->references('id')->on('dropdowns')->onDelete('cascade');
             $table->foreign('type_id')->references('id')->on('dropdowns')->onDelete('cascade');
+            //berat
+            $table->foreign('berat_id')->references('id')->on('dropdowns')->onDelete('cascade');            
         });
     }
 

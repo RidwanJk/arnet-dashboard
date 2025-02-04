@@ -15,6 +15,7 @@ class Document extends Model
         'serial',
         'first_sto_id',
         'last_sto_id',
+        'berat_id',
         'evidence',
         'ba',
         'status',
@@ -34,5 +35,11 @@ class Document extends Model
     public function stoLast()
     {
         return $this->belongsTo(Dropdown::class, 'last_sto_id');
+    }
+
+    //berat
+    public function beratDropdown()
+    {
+        return $this->belongsTo(Dropdown::class, 'berat_id');
     }
 }
